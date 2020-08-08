@@ -26,7 +26,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    
+
     testImplementation("io.mockk:mockk:1.10.0")
     testImplementation("io.vertx:vertx-web-client:$vertxVersion")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
