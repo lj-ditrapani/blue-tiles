@@ -4,8 +4,8 @@ plugins {
     kotlin("jvm").version("1.3.72")
     application
     jacoco
-    id("org.jlleitschuh.gradle.ktlint").version("9.2.1")
-    id("com.github.ben-manes.versions").version("0.28.0")
+    id("org.jlleitschuh.gradle.ktlint").version("9.3.0")
+    id("com.github.ben-manes.versions").version("0.29.0")
 }
 
 repositories {
@@ -13,8 +13,8 @@ repositories {
 }
 
 dependencies {
-    val log4jVersion = "2.13.1"
-    val vertxVersion = "3.9.0"
+    val log4jVersion = "2.13.3"
+    val vertxVersion = "3.9.2"
     val kotestVersion = "4.1.3"
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
@@ -38,7 +38,7 @@ application {
 }
 
 ktlint {
-    version.set("0.36.0")
+    version.set("0.37.2")
     enableExperimentalRules.set(true)
 }
 
