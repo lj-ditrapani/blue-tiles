@@ -1,0 +1,11 @@
+build
+Dockerfile
+gradle
+gradlew
+draglew.bat
+.git
+.gradle
+.idea
+local.properties
+*.md
+*.sh
