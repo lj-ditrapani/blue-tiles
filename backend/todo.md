@@ -1,5 +1,3 @@
-- use typescript
-- check tsconfig
 - go over each react file
     - service worker
 - register: either use
