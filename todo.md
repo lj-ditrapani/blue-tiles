@@ -1,5 +1,3 @@
-- prettier
-- check aide project
 - get status
     - send status of game
 - post play
