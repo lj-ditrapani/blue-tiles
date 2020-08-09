@@ -1,6 +1,5 @@
-- setup frontend
-    - react
-- vert.x static root serves up frontend index.html (which then pulls in js/css)
+- go over each react file
+- use typescript
 - register: either use
     - manually generate UUID and pass a path param or custom header value
     - use vertx session

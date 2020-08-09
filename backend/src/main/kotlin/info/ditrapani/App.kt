@@ -2,6 +2,7 @@ package info.ditrapani
 
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
+import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.kotlin.core.http.listenAwait
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import org.apache.logging.log4j.LogManager
@@ -14,6 +15,7 @@ class Server(private val logger: Logger) : CoroutineVerticle() {
 
     override suspend fun start() {
         val router = Router.router(vertx)
+        router.route("/*").handler(StaticHandler.create())
         router.get("/hello").handler { routingContext ->
             routingContext.response().end("hello!!!")
         }

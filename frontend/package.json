@@ -14,7 +14,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "copy-to-backend": "rm -fr ../backend/src/main/resources/webroot/* && cp -R build/* ../backend/src/main/resources/webroot"
   },
   "eslintConfig": {
     "extends": "react-app"
