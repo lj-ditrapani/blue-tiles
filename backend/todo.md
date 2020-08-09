@@ -1,5 +1,7 @@
-- go over each react file
 - use typescript
+- check tsconfig
+- go over each react file
+    - service worker
 - register: either use
     - manually generate UUID and pass a path param or custom header value
     - use vertx session
