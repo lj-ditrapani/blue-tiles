@@ -18,6 +18,7 @@ class Server(
     private val logger: Logger
 ) : CoroutineVerticle() {
     fun hi(): String = "hello"
+    var game: Game = newGame()
 
     override suspend fun start() {
         val sessionStore = LocalSessionStore.create(vertx)
@@ -37,7 +38,7 @@ class Server(
         router.get("/status").handler { routingContext ->
             val response = routingContext.response()
             response.putHeader("Content-Type", "application/json")
-            response.end("status...")
+            response.end(game.toJson().toString())
         }
         router.post("/play/:location/:color/:row").handler { routingContext ->
             val session = routingContext.session()
