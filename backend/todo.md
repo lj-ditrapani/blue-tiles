@@ -1,0 +1,10 @@
+- setup frontend
+    - react
+- vert.x static root serves up frontend index.html (which then pulls in js/css)
+- register: either use
+    - manually generate UUID and pass a path param or custom header value
+    - use vertx session
+        - register assigns a player # to the session ID
+        - saves player # in session (session data is saved locally in vert.x)
+        - must keep track of # of players
+- dockerize
