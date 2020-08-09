@@ -1,9 +1,0 @@
-- go over each react file
-    - service worker
-- register: either use
-    - manually generate UUID and pass a path param or custom header value
-    - use vertx session
-        - register assigns a player # to the session ID
-        - saves player # in session (session data is saved locally in vert.x)
-        - must keep track of # of players
-- dockerize
