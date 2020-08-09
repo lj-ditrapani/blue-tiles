@@ -8,6 +8,10 @@ In the project directory, you can run:
 
 Copies frontend assets to backend static www directory
 
+### `npm run fmt`
+
+Run prettier to format code
+
 ### `npm start`
 
 Runs the app in the development mode.<br />

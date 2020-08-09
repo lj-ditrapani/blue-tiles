@@ -1,10 +1,12 @@
+- prettier
+- check aide project
 - get status
     - send status of game
 - post play
-- post register: on count == 3; -> ready to play
 - create frontend skeleton
     - calls register
     - Loop call status -> shows status payload
     - fields: location, color, row
     - Button play -> calls play -> shows result
+- post register: on count == 3; -> ready to play
 - dockerize
