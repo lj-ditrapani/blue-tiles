@@ -1,19 +1,3 @@
-Build & run dependecies: [docker](https://www.docker.com/)
-
-
-Build
------
-
-    cd backend
-    sh build.sh
-
-
-Run
----
-
-    sh docker-run.sh
-
-
 Develop
 -------
 
