@@ -50,7 +50,8 @@ data class Game(
     fun toJson(): JsonObject =
         json {
             obj(
-                "currentPlayer" to currentPlayer,
+                "currentFirstPlayer" to currentPlayer.toString(),
+                "currentPlayer" to currentPlayer.toString(),
                 "factory" to factory.toJson(),
                 "supplyCount" to supply.size,
                 "trashCount" to trash.size(),
