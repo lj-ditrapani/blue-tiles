@@ -14,14 +14,14 @@ data class StorageRow(val color: Color, val count: Int) {
 }
 
 data class GridRow(
-    val c1: Maybe,
-    val c2: Maybe,
-    val c3: Maybe,
-    val c4: Maybe,
-    val c5: Maybe
+    var c1: Maybe,
+    var c2: Maybe,
+    var c3: Maybe,
+    var c4: Maybe,
+    var c5: Maybe
 )
 
-val newGridRow = GridRow(
+fun newGridRow(): GridRow = GridRow(
     Maybe.MISSING,
     Maybe.MISSING,
     Maybe.MISSING,
@@ -37,24 +37,24 @@ data class Grid(
     val row5: GridRow
 )
 
-val newGrid =
+fun newGrid(): Grid =
     Grid(
-        newGridRow,
-        newGridRow,
-        newGridRow,
-        newGridRow,
-        newGridRow
+        newGridRow(),
+        newGridRow(),
+        newGridRow(),
+        newGridRow(),
+        newGridRow()
     )
 
 data class Board(
-    val row1: StorageRow?,
-    val row2: StorageRow?,
-    val row3: StorageRow?,
-    val row4: StorageRow?,
-    val row5: StorageRow?,
+    var row1: StorageRow?,
+    var row2: StorageRow?,
+    var row3: StorageRow?,
+    var row4: StorageRow?,
+    var row5: StorageRow?,
     val grid: Grid,
-    val nextFirstPlayer: Maybe,
-    val floor: List<Color>
+    var nextFirstPlayer: Maybe,
+    val floor: MutableList<Color>
 ) {
     fun toJson(): JsonObject =
         json {
@@ -81,7 +81,7 @@ val newBoard = Board(
     null,
     null,
     null,
-    newGrid,
+    newGrid(),
     Maybe.MISSING,
-    listOf()
+    mutableListOf()
 )

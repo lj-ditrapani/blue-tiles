@@ -1,13 +1,11 @@
 package info.ditrapani.game
 
-import info.ditrapani.model.Color
-import info.ditrapani.factory.Factory
-import info.ditrapani.factory.newFactoryFromSupply
 import info.ditrapani.board.Board
 import info.ditrapani.board.newBoard
-import io.vertx.core.json.JsonArray
+import info.ditrapani.factory.Factory
+import info.ditrapani.factory.newFactoryFromSupply
+import info.ditrapani.model.Color
 import io.vertx.core.json.JsonObject
-import io.vertx.kotlin.core.json.array
 import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
 
@@ -18,30 +16,29 @@ enum class Player {
 }
 
 data class Trash(
-    val whites: Int,
-    val reds: Int,
-    val blues: Int,
-    val greens: Int,
-    val blacks: Int
+    var whites: Int,
+    var reds: Int,
+    var blues: Int,
+    var greens: Int,
+    var blacks: Int
 ) {
     fun size(): Int = whites + reds + blues + greens + blacks
 
-    fun toSupply(): List<Color> =
-        (
-            List(whites) { Color.WHITE } +
-                List(reds) { Color.RED } +
-                List(blues) { Color.BLUE } +
-                List(greens) { Color.GREEN } +
-                List(blacks) { Color.BLACK }
-        )
-        .shuffled()
+    fun toSupply(): Supply =
+        mutableListOf<Color>().apply {
+            addAll(MutableList(whites) { Color.WHITE })
+            addAll(MutableList(reds) { Color.RED })
+            addAll(MutableList(blues) { Color.BLUE })
+            addAll(MutableList(greens) { Color.GREEN })
+            addAll(MutableList(blacks) { Color.BLACK })
+            shuffle()
+        }
 }
 
-
 data class Game(
-    val currentFirstPlayer: Player,
-    val currentPlayer: Player,
-    val supply: List<Color>,
+    var currentFirstPlayer: Player,
+    var currentPlayer: Player,
+    val supply: Supply,
     val trash: Trash,
     val factory: Factory,
     val board1: Board,
@@ -62,17 +59,20 @@ data class Game(
         }
 }
 
-fun newSupply(): List<Color> =
+typealias Supply = MutableList<Color>
+
+fun newSupply(): Supply =
     Trash(20, 20, 20, 20, 20).toSupply()
 
 fun newGame(): Game {
     val supply = newSupply()
-    val factory = newFactoryFromSupply(supply)
+    val trash = Trash(0, 0, 0, 0, 0)
+    val factory = newFactoryFromSupply(supply, trash)
     return Game(
         Player.P1,
         Player.P1,
         supply,
-        Trash(0, 0, 0, 0, 0),
+        trash,
         factory,
         newBoard,
         newBoard,

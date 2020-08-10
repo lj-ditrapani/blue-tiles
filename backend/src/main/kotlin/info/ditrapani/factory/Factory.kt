@@ -1,5 +1,7 @@
 package info.ditrapani.factory
 
+import info.ditrapani.game.Supply
+import info.ditrapani.game.Trash
 import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
 import io.vertx.core.json.JsonArray
@@ -25,7 +27,7 @@ data class Display(
         }
 }
 
-fun newDisplay(supply: MutableList<Color>) = Display(null, null, null, null)
+fun newDisplay(supply: Supply, trash: Trash) = Display(null, null, null, null)
 
 data class Leftovers(
     val whites: Int,
@@ -60,8 +62,7 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         }
 }
 
-fun newFactoryFromSupply(supply: List<Color>): Factory {
-    val list = supply.toMutableList()
-    val displays = 0.until(7).map { newDisplay(list) }
+fun newFactoryFromSupply(supply: Supply, trash: Trash): Factory {
+    val displays = 0.until(7).map { newDisplay(supply, trash) }
     return Factory(displays, newLeftovers)
 }
