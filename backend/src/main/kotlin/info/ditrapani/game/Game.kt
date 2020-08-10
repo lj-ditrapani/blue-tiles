@@ -33,6 +33,8 @@ data class Trash(
             addAll(MutableList(blacks) { Color.BLACK })
             shuffle()
         }
+
+    fun isEmpty(): Boolean = toSupply().size == 0
 }
 
 data class Game(
@@ -60,6 +62,16 @@ data class Game(
 }
 
 typealias Supply = MutableList<Color>
+
+fun Supply.getTile(trash: Trash): Color? {
+    if (isEmpty()) {
+        if (trash.isEmpty()) {
+            return null
+        }
+        addAll(trash.toSupply())
+    }
+    return removeAt(0)
+}
 
 fun newSupply(): Supply =
     Trash(20, 20, 20, 20, 20).toSupply()

@@ -2,6 +2,7 @@ package info.ditrapani.factory
 
 import info.ditrapani.game.Supply
 import info.ditrapani.game.Trash
+import info.ditrapani.game.getTile
 import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
 import io.vertx.core.json.JsonArray
@@ -27,7 +28,13 @@ data class Display(
         }
 }
 
-fun newDisplay(supply: Supply, trash: Trash) = Display(null, null, null, null)
+fun newDisplay(supply: Supply, trash: Trash) =
+    Display(
+        supply.getTile(trash),
+        supply.getTile(trash),
+        supply.getTile(trash),
+        supply.getTile(trash)
+    )
 
 data class Leftovers(
     val whites: Int,
