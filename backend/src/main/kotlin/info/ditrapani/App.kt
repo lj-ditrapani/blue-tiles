@@ -1,5 +1,7 @@
 package info.ditrapani
 
+import info.ditrapani.game.Game
+import info.ditrapani.game.newGame
 import io.vertx.core.Vertx
 import io.vertx.core.http.CookieSameSite
 import io.vertx.ext.web.Router
@@ -18,7 +20,7 @@ class Server(
     private val logger: Logger
 ) : CoroutineVerticle() {
     fun hi(): String = "hello"
-    var game: Game = newGame()
+    val game: Game = newGame()
 
     override suspend fun start() {
         val sessionStore = LocalSessionStore.create(vertx)

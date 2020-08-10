@@ -1,10 +1,22 @@
+- player scores (add to board)
+- Before game is ready
+    - need 3 players to join
+- Make data classe mutable?
+    - creating the a new factory (at begining AND each round)
+      requires mutating the supply AND maybe the trash
+- get ready
+    - returns false + number of present/missing players
+    - return true when all 3 players are registered
 - get status
     - send status of game
 - post play
 - create frontend skeleton
     - calls register
+    - Loop call ready
+        - once true, stop and proceed
     - Loop call status -> shows status payload
-    - fields: location, color, row
-    - Button play -> calls play -> shows result
+        - once your turn, stop update UI for player's turn
+    - Collect fields: location, color, row
+    - Button play -> calls play -> shows result -> return to status loop
 - post register: on count == 3; -> ready to play
 - dockerize
