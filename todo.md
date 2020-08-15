@@ -1,10 +1,10 @@
 - rename items to match rules
-    - pattern lines
-    - tile wall
-    - floor line
     - 2 phases
         - factory offer
         - wall tiling (scoring)
+- need winner: Player? field
+    - null means game is on
+    - Player means game is over
 - Rename Location item to remove clash
 - Play row needs to become Play move : Row | Floor
 - PlayRecord needs firstPlayer: Maybe field!

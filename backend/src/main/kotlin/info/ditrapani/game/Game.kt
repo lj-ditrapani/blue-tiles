@@ -1,5 +1,7 @@
 package info.ditrapani.game
 
+import info.ditrapani.Result
+import info.ditrapani.Success
 import info.ditrapani.board.Board
 import info.ditrapani.board.newBoard
 import info.ditrapani.factory.Factory
@@ -53,7 +55,8 @@ data class Game(
     val board3: Board,
     var lastPlay: PlayRecord?
 ) {
-    fun update(play: Play) {
+    fun update(play: Play): Result {
+        // do factory offer
         val count = factory.update(play)
         val playRecord = PlayRecord(count, play)
         val player = play.player
@@ -63,6 +66,18 @@ data class Game(
             Player.P3 -> board3.update(playRecord)
         }
         lastPlay = playRecord
+
+        if (factory.isEmpty()) {
+            // do wall tilling and scoring
+            // needs to be implemented
+
+            // check if end of game
+            // if not end of game
+            // Prepare the next round
+            // if end of game
+            // add bonus score and mark complete
+        }
+        return Success
     }
 
     fun toJson(player: Player?): JsonObject =

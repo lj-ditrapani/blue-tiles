@@ -10,7 +10,7 @@ import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
 import java.lang.IllegalArgumentException
 
-data class StorageRow(var color: Color, var count: Int) {
+data class PatternLine(var color: Color, var count: Int) {
     fun add(newColor: Color, newCount: Int, max: Int): Int {
         if (color != newColor) {
             throw IllegalArgumentException("cheating!")
@@ -29,16 +29,16 @@ data class StorageRow(var color: Color, var count: Int) {
         json { obj("color" to color.toString(), "count" to count) }
 }
 
-fun StorageRow?.add(newColor: Color, newCount: Int, max: Int): Int {
-    val storageRow = if (this == null) {
-        StorageRow(newColor, 0)
+fun PatternLine?.add(newColor: Color, newCount: Int, max: Int): Int {
+    val patternLine = if (this == null) {
+        PatternLine(newColor, 0)
     } else {
         this
     }
-    return storageRow.add(newColor, newCount, max)
+    return patternLine.add(newColor, newCount, max)
 }
 
-data class GridRow(
+data class WallLine(
     var c1: Maybe,
     var c2: Maybe,
     var c3: Maybe,
@@ -46,7 +46,7 @@ data class GridRow(
     var c5: Maybe
 )
 
-fun newGridRow(): GridRow = GridRow(
+fun newGridRow(): WallLine = WallLine(
     Maybe.MISSING,
     Maybe.MISSING,
     Maybe.MISSING,
@@ -54,16 +54,18 @@ fun newGridRow(): GridRow = GridRow(
     Maybe.MISSING
 )
 
-data class Grid(
-    val row1: GridRow,
-    val row2: GridRow,
-    val row3: GridRow,
-    val row4: GridRow,
-    val row5: GridRow
-)
+data class Wall(
+    val line1: WallLine,
+    val line2: WallLine,
+    val line3: WallLine,
+    val line4: WallLine,
+    val line5: WallLine
+) {
+    fun isGameOver(): Boolean = true
+}
 
-fun newGrid(): Grid =
-    Grid(
+fun newGrid(): Wall =
+    Wall(
         newGridRow(),
         newGridRow(),
         newGridRow(),
@@ -73,12 +75,12 @@ fun newGrid(): Grid =
 
 data class Board(
     var score: Int,
-    var row1: StorageRow?,
-    var row2: StorageRow?,
-    var row3: StorageRow?,
-    var row4: StorageRow?,
-    var row5: StorageRow?,
-    val grid: Grid,
+    var line1: PatternLine?,
+    var line2: PatternLine?,
+    var line3: PatternLine?,
+    var line4: PatternLine?,
+    var line5: PatternLine?,
+    val wall: Wall,
     var nextFirstPlayer: Maybe,
     val floor: MutableList<Color>
 ) {
@@ -88,20 +90,22 @@ data class Board(
         val color = play.color
         val row = play.row
         when (row) {
-            1 -> doUpdate(row1, color, tileCount, 1)
-            2 -> doUpdate(row2, color, tileCount, 2)
-            3 -> doUpdate(row3, color, tileCount, 3)
-            4 -> doUpdate(row4, color, tileCount, 4)
-            5 -> doUpdate(row5, color, tileCount, 5)
+            1 -> doUpdate(line1, color, tileCount, 1)
+            2 -> doUpdate(line2, color, tileCount, 2)
+            3 -> doUpdate(line3, color, tileCount, 3)
+            4 -> doUpdate(line4, color, tileCount, 4)
+            5 -> doUpdate(line5, color, tileCount, 5)
         }
     }
 
-    private fun doUpdate(row: StorageRow?, color: Color, tileCount: Int, max: Int) {
+    private fun doUpdate(row: PatternLine?, color: Color, tileCount: Int, max: Int) {
         val floorTileCount = row.add(color, tileCount, max)
         0.until(floorTileCount).forEach {
             floor.add(color)
         }
     }
+
+    fun isGameOver(): Boolean = wall.isGameOver()
 
     fun toJson(): JsonObject =
         json {
@@ -109,14 +113,14 @@ data class Board(
                 "score" to score,
                 "rows" to json {
                     array(
-                        row1?.toJson(),
-                        row2?.toJson(),
-                        row3?.toJson(),
-                        row4?.toJson(),
-                        row5?.toJson()
+                        line1?.toJson(),
+                        line2?.toJson(),
+                        line3?.toJson(),
+                        line4?.toJson(),
+                        line5?.toJson()
                     )
                 },
-                "grid" to grid.toString(),
+                "grid" to wall.toString(),
                 "nextFirstPlayer" to nextFirstPlayer.toString(),
                 "floor" to JsonArray(floor.map { it.toString() })
             )
