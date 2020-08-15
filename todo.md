@@ -1,7 +1,3 @@
-- rename items to match rules
-    - 2 phases
-        - factory offer
-        - wall tiling (scoring)
 - need winner: Player? field
     - null means game is on
     - Player means game is over

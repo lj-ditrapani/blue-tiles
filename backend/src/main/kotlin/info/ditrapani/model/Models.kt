@@ -34,14 +34,14 @@ fun parsePlay(player: Player, location: String, color: String, row: String): Pla
     Play(player, parseLocation(location), Color.valueOf(color), row.toInt())
 
 sealed class Location
-object Leftovers : Location()
-data class FactoryDisplay(val number: Int) : Location()
+object LeftoversLocation : Location()
+data class DisplayLocation(val number: Int) : Location()
 
 fun parseLocation(str: String): Location =
     if (str == "leftovers") {
-        Leftovers
+        LeftoversLocation
     } else {
-        FactoryDisplay(str.toInt())
+        DisplayLocation(str.toInt())
     }
 
 data class PlayRecord(val tileCount: Int, val play: Play) {
@@ -58,8 +58,4 @@ data class PlayRecord(val tileCount: Int, val play: Play) {
 }
 
 fun PlayRecord?.toJson(): JsonObject? =
-    if (this == null) {
-        null
-    } else {
-        toJson()
-    }
+    this?.toJson()

@@ -8,70 +8,6 @@ import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.array
 import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
-import java.lang.IllegalArgumentException
-
-data class PatternLine(var color: Color, var count: Int) {
-    fun add(newColor: Color, newCount: Int, max: Int): Int {
-        if (color != newColor) {
-            throw IllegalArgumentException("cheating!")
-        }
-        val total = count + newCount
-        return if (total > max) {
-            count = max
-            total - max
-        } else {
-            count = total
-            0
-        }
-    }
-
-    fun toJson(): JsonObject =
-        json { obj("color" to color.toString(), "count" to count) }
-}
-
-fun PatternLine?.add(newColor: Color, newCount: Int, max: Int): Int {
-    val patternLine = if (this == null) {
-        PatternLine(newColor, 0)
-    } else {
-        this
-    }
-    return patternLine.add(newColor, newCount, max)
-}
-
-data class WallLine(
-    var c1: Maybe,
-    var c2: Maybe,
-    var c3: Maybe,
-    var c4: Maybe,
-    var c5: Maybe
-)
-
-fun newGridRow(): WallLine = WallLine(
-    Maybe.MISSING,
-    Maybe.MISSING,
-    Maybe.MISSING,
-    Maybe.MISSING,
-    Maybe.MISSING
-)
-
-data class Wall(
-    val line1: WallLine,
-    val line2: WallLine,
-    val line3: WallLine,
-    val line4: WallLine,
-    val line5: WallLine
-) {
-    fun isGameOver(): Boolean = true
-}
-
-fun newGrid(): Wall =
-    Wall(
-        newGridRow(),
-        newGridRow(),
-        newGridRow(),
-        newGridRow(),
-        newGridRow()
-    )
 
 data class Board(
     var score: Int,
@@ -134,7 +70,7 @@ val newBoard = Board(
     null,
     null,
     null,
-    newGrid(),
+    newWall(),
     Maybe.MISSING,
     mutableListOf()
 )
