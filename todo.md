@@ -1,3 +1,8 @@
+- rename applyPlay to update
+- PlayRecord needs firstPlayer: Maybe field!
+    - once we applyPlay on factory, we should know the tileCount taken AND if firstPlayer was taken
+    - then create PlayRecord
+    - use firstPlayer field to update board
 - create frontend skeleton
     - calls register
     - Loop call ready

@@ -58,9 +58,9 @@ data class Game(
         val playRecord = PlayRecord(count, play)
         val player = play.player
         when (player) {
-            Player.P1 -> board1.update(playRecord, trash)
-            Player.P2 -> board2.update(playRecord, trash)
-            Player.P3 -> board3.update(playRecord, trash)
+            Player.P1 -> board1.update(playRecord)
+            Player.P2 -> board2.update(playRecord)
+            Player.P3 -> board3.update(playRecord)
         }
         lastPlay = playRecord
     }
