@@ -1,4 +1,8 @@
-- rename applyPlay to update
+- rename items to match rules
+    - pattern lines
+    - tile wall
+- Rename Location item to remove clash
+- Play row needs to become Play move : Row | Floor
 - PlayRecord needs firstPlayer: Maybe field!
     - once we applyPlay on factory, we should know the tileCount taken AND if firstPlayer was taken
     - then create PlayRecord

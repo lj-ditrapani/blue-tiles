@@ -140,7 +140,7 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         leftovers.nextFirstPlayer = Maybe.PRESENT
     }
 
-    fun applyPlay(play: Play): Int {
+    fun update(play: Play): Int {
         val location = play.location
         return when (location) {
             is FactoryDisplay ->

@@ -53,8 +53,8 @@ data class Game(
     val board3: Board,
     var lastPlay: PlayRecord?
 ) {
-    fun applyPlay(play: Play) {
-        val count = factory.applyPlay(play)
+    fun update(play: Play) {
+        val count = factory.update(play)
         val playRecord = PlayRecord(count, play)
         val player = play.player
         when (player) {
