@@ -5,15 +5,12 @@ import info.ditrapani.board.newBoard
 import info.ditrapani.factory.Factory
 import info.ditrapani.factory.newFactoryFromSupply
 import info.ditrapani.model.Color
+import info.ditrapani.model.PlayRecord
+import info.ditrapani.model.Player
+import info.ditrapani.model.toJson
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
-
-enum class Player {
-    P1,
-    P2,
-    P3
-}
 
 fun requestingPerson(player: Player?): String =
     if (player == null) {
@@ -52,7 +49,8 @@ data class Game(
     val factory: Factory,
     val board1: Board,
     val board2: Board,
-    val board3: Board
+    val board3: Board,
+    val lastPlay: PlayRecord?
 ) {
     fun toJson(player: Player?): JsonObject =
         json {
@@ -65,7 +63,8 @@ data class Game(
                 "trashCount" to trash.size(),
                 "board1" to board1.toJson(),
                 "board2" to board1.toJson(),
-                "board3" to board1.toJson()
+                "board3" to board1.toJson(),
+                "lastPlay" to lastPlay.toJson()
             )
         }
 }
@@ -97,6 +96,7 @@ fun newGame(): Game {
         factory,
         newBoard,
         newBoard,
-        newBoard
+        newBoard,
+        null
     )
 }

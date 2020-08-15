@@ -1,8 +1,8 @@
 package info.ditrapani
 
 import info.ditrapani.game.Game
-import info.ditrapani.game.Player
 import info.ditrapani.game.newGame
+import info.ditrapani.model.Player
 import io.vertx.core.Vertx
 import io.vertx.core.http.CookieSameSite
 import io.vertx.ext.web.Router
