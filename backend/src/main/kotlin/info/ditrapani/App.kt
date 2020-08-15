@@ -10,6 +10,8 @@ import io.vertx.ext.web.handler.SessionHandler
 import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.ext.web.sstore.LocalSessionStore
 import io.vertx.kotlin.core.http.listenAwait
+import io.vertx.kotlin.core.json.json
+import io.vertx.kotlin.core.json.obj
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -43,6 +45,15 @@ class Server(
                 routingContext.response().end("registered as player # $player")
             }
         }
+        router.get("/ready").handler { routingContext ->
+            val body = json {
+                obj(
+                    "ready" to playerCounter.isReady(),
+                    "count" to playerCounter.count()
+                )
+            }
+            routingContext.response().end(body.toString())
+        }
         router.get("/status").handler { routingContext ->
             val session = routingContext.session()
             val player = session.get<Player?>("player")
@@ -71,6 +82,15 @@ class Server(
 
 class PlayerCounter {
     private var i = 0
+
+    fun isReady(): Boolean =
+        if (i == 3) {
+            true
+        } else {
+            false
+        }
+
+    fun count(): Int = i
 
     fun getAndInc(): Player? =
         if (i == 3) {

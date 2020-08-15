@@ -28,3 +28,21 @@ Run installed
 
     ./gradlew installDist
     ./build/install/blue/bin/blue
+
+
+API
+---
+
+```
+post register
+    Creates session cookie.
+    Register's player number in session.
+get ready
+    Returns false if still waiting for 3 players.
+    Returns true once all 3 players have joined.
+get status
+    Returns the complete current state of the game.
+post play
+    Only legal for current player to post play.
+    Allows player to send chosen play.
+```

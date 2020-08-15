@@ -50,7 +50,7 @@ data class Game(
     val board1: Board,
     val board2: Board,
     val board3: Board,
-    val lastPlay: PlayRecord?
+    var lastPlay: PlayRecord?
 ) {
     fun toJson(player: Player?): JsonObject =
         json {
