@@ -1,6 +1,7 @@
 package info.ditrapani
 
 import info.ditrapani.game.Game
+import info.ditrapani.game.Player
 import info.ditrapani.game.newGame
 import io.vertx.core.Vertx
 import io.vertx.core.http.CookieSameSite
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.Logger
 private const val PORT = 44777
 
 class Server(
-    private val playerCounter: Counter,
+    private val playerCounter: PlayerCounter,
     private val logger: Logger
 ) : CoroutineVerticle() {
     fun hi(): String = "hello"
@@ -34,13 +35,16 @@ class Server(
         }
         router.post("/register").handler { routingContext ->
             val session = routingContext.session()
-            session.put("playerNumber", playerCounter.getAndInc())
-            routingContext.response().end("registered as player # ${playerCounter.get()}")
+            val player = playerCounter.getAndInc()
+            session.put("player", player)
+            routingContext.response().end("registered as player # $player")
         }
         router.get("/status").handler { routingContext ->
+            val session = routingContext.session()
+            val player = session.get<Player?>("player")
             val response = routingContext.response()
             response.putHeader("Content-Type", "application/json")
-            response.end(game.toJson().toString())
+            response.end(game.toJson(player).toString())
         }
         router.post("/play/:location/:color/:row").handler { routingContext ->
             val session = routingContext.session()
@@ -61,18 +65,17 @@ class Server(
     }
 }
 
-class Counter {
+class PlayerCounter {
     private var i = 0
 
-    fun get(): Int = i
-
-    fun getAndInc(): Int {
-        i = i + 1
-        return i
+    fun getAndInc(): Player {
+        val temp = "P${i + 1}"
+        i = (i + 1) % 3
+        return Player.valueOf(temp)
     }
 }
 
 fun main() {
     val logger = LogManager.getLogger("Server")
-    Vertx.vertx().deployVerticle(Server(Counter(), logger))
+    Vertx.vertx().deployVerticle(Server(PlayerCounter(), logger))
 }

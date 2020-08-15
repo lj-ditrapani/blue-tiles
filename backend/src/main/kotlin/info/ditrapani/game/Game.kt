@@ -15,6 +15,13 @@ enum class Player {
     P3
 }
 
+fun requestingPerson(player: Player?): String =
+    if (player == null) {
+        "spectator"
+    } else {
+        player.name
+    }
+
 data class Trash(
     var whites: Int,
     var reds: Int,
@@ -47,9 +54,10 @@ data class Game(
     val board2: Board,
     val board3: Board
 ) {
-    fun toJson(): JsonObject =
+    fun toJson(player: Player?): JsonObject =
         json {
             obj(
+                "requestingPerson" to requestingPerson(player),
                 "currentFirstPlayer" to currentPlayer.toString(),
                 "currentPlayer" to currentPlayer.toString(),
                 "factory" to factory.toJson(),
