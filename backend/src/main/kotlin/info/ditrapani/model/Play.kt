@@ -25,7 +25,7 @@ fun parseLocation(str: String): Location =
         DisplayLocation(str.toInt())
     }
 
-data class PlayRecord(val tileCount: Int, val play: Play) {
+data class PlayRecord(val tileCount: Int, val firstPlayer: Maybe, val play: Play) {
     fun toJson(): JsonObject =
         json {
             obj(
@@ -33,6 +33,7 @@ data class PlayRecord(val tileCount: Int, val play: Play) {
                 "location" to play.location.toString(),
                 "color" to play.color.name,
                 "tileCount" to tileCount,
+                "nextFirstPlayer" to firstPlayer,
                 "moveTo" to play.moveTo.toString()
             )
         }

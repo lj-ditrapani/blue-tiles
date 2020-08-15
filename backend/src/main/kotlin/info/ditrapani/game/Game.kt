@@ -57,8 +57,8 @@ data class Game(
 ) {
     fun update(play: Play): Result {
         // do factory offer
-        val count = factory.update(play)
-        val playRecord = PlayRecord(count, play)
+        val (count, firstPlayer) = factory.update(play)
+        val playRecord = PlayRecord(count, firstPlayer, play)
         val player = play.player
         when (player) {
             Player.P1 -> board1.update(playRecord)

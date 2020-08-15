@@ -19,13 +19,24 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         leftovers.nextFirstPlayer = Maybe.PRESENT
     }
 
-    fun update(play: Play): Int {
+    fun update(play: Play): FactoryUpdate {
         val location = play.location
         return when (location) {
             is DisplayLocation ->
-                displays[location.number - 1].take(play.color)
-            LeftoversLocation ->
-                leftovers.take(play.color)
+                FactoryUpdate(
+                    displays[location.number - 1].take(play.color),
+                    Maybe.MISSING
+                )
+            LeftoversLocation -> {
+                val firstPlayer = leftovers.nextFirstPlayer
+                if (firstPlayer == Maybe.PRESENT) {
+                    leftovers.nextFirstPlayer = Maybe.MISSING
+                }
+                FactoryUpdate(
+                    leftovers.take(play.color),
+                    firstPlayer
+                )
+            }
         }
     }
 
@@ -42,3 +53,5 @@ fun newFactoryFromSupply(supply: Supply, trash: Trash): Factory {
     val displays = 0.until(7).map { newDisplay(supply, trash) }
     return Factory(displays, newLeftovers)
 }
+
+data class FactoryUpdate(val tileCount: Int, val firstPlayer: Maybe)

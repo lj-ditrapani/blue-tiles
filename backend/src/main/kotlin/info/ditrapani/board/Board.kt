@@ -39,6 +39,7 @@ data class Board(
             MoveToFloor ->
                 updateFloor(color, tileCount)
         }
+        nextFirstPlayer = playRecord.firstPlayer
     }
 
     private fun updateLine(row: PatternLine?, color: Color, tileCount: Int, max: Int) {
