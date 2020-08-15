@@ -1,4 +1,5 @@
-- player scores (add to board)
+- Game: add last move (player#, location, color, count, row) to Game to be displayed in UI
+- Send which player # made the request back in the response
 - Before game is ready
     - need 3 players to join
 - Make data classe mutable?

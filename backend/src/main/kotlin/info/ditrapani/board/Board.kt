@@ -47,6 +47,7 @@ fun newGrid(): Grid =
     )
 
 data class Board(
+    var score: Int,
     var row1: StorageRow?,
     var row2: StorageRow?,
     var row3: StorageRow?,
@@ -59,6 +60,7 @@ data class Board(
     fun toJson(): JsonObject =
         json {
             obj(
+                "score" to score,
                 "rows" to json {
                     array(
                         row1?.toJson(),
@@ -76,6 +78,7 @@ data class Board(
 }
 
 val newBoard = Board(
+    0,
     null,
     null,
     null,
