@@ -1,9 +1,9 @@
+- Type Game?
+    - pull out currentPlayer
+    - check for match
 - create frontend skeleton
-    - calls register
-    - Loop call ready
-        - once true, stop and proceed
     - Loop call status -> shows status payload
-        - once your turn, stop update UI for player's turn
+        - once your turn, stop; update UI for player's turn
     - Collect fields: location, color, row
     - Button play -> calls play -> shows result -> return to status loop
 - Adding tiles to Board floor:

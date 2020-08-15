@@ -10,6 +10,7 @@ type AppState = {
   ready: Boolean
   player: Player | undefined
   playerCount: number
+  game: any
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -20,6 +21,7 @@ class App extends React.Component<AppProps, AppState> {
       ready: false,
       player: undefined,
       playerCount: 0,
+      game: null,
     }
   }
 
@@ -30,6 +32,7 @@ class App extends React.Component<AppProps, AppState> {
   async setup() {
     await this.registerUser()
     await this.waitForReady()
+    await this.gameLoop()
   }
 
   async registerUser() {
@@ -37,7 +40,7 @@ class App extends React.Component<AppProps, AppState> {
     const body = await result.json()
     console.log('register success')
     console.log(body)
-    if (body.status == 'registered') {
+    if (body.status === 'registered') {
       this.setState({
         player: body.player,
         registered: true,
@@ -60,6 +63,14 @@ class App extends React.Component<AppProps, AppState> {
     }
   }
 
+  async gameLoop() {
+    const result = await fetch('/status')
+    const body = await result.json()
+    console.log('called status:')
+    console.log(body)
+    // this.setState({ game: body })
+  }
+
   render() {
     if (this.state.registered) {
       return (
@@ -69,6 +80,7 @@ class App extends React.Component<AppProps, AppState> {
           <p> waiting for {3 - this.state.playerCount} players to join </p>
           <p> this.props.hi </p>
           <p> You are player {this.state.player} </p>
+          <p> Game is {this.state.game} </p>
         </div>
       )
     } else {
