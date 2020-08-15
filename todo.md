@@ -1,6 +1,10 @@
 - rename items to match rules
     - pattern lines
     - tile wall
+    - floor line
+    - 2 phases
+        - factory offer
+        - wall tiling (scoring)
 - Rename Location item to remove clash
 - Play row needs to become Play move : Row | Floor
 - PlayRecord needs firstPlayer: Maybe field!
@@ -17,3 +21,6 @@
     - Button play -> calls play -> shows result -> return to status loop
 - post register: on count == 3; -> ready to play
 - dockerize
+- make game anti-cheat
+    - update(play) function should return success/error
+        - error if play is an illegla move

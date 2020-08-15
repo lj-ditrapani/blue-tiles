@@ -93,27 +93,6 @@ class Server(
     }
 }
 
-class PlayerCounter {
-    private var i = 0
-
-    fun isReady(): Boolean =
-        if (i == 3) {
-            true
-        } else {
-            false
-        }
-
-    fun count(): Int = i
-
-    fun getAndInc(): Player? =
-        if (i == 3) {
-            null
-        } else {
-            i = i + 1
-            Player.valueOf("P$i")
-        }
-}
-
 fun main() {
     val logger = LogManager.getLogger("Server")
     Vertx.vertx().deployVerticle(Server(PlayerCounter(), logger))
