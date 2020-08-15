@@ -1,28 +1,40 @@
 import React from 'react'
-import logo from './logo.svg'
 import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload. Foo: {foo}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  )
+type AppProps = {
+  hi: String
 }
 
-const foo = 'hi'
+type AppState = {
+  registered: Boolean,
+  ready: Boolean
+}
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props)
+    this.state = {
+      registered: false,
+      ready: false,
+    }
+  }
+
+  render() {
+    if (this.state.registered) {
+      return (
+        <div className="App">
+          <p> Registered </p>
+          <p> this.props.hi </p>
+        </div>
+      )
+    } else {
+      return (
+        <div className="App">
+          <p> Registering user </p>
+        </div>
+      )
+    }
+  }
+}
 
 export default App

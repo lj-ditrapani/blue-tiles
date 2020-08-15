@@ -18,7 +18,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "tsc": "tsc",
     "test": "react-scripts test",
+    "test-only": "npm test -- --watchAll=false",
+    "test-coverage": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "fmt": "prettier --write \"*.json\" \"src/**/*.{ts,tsx}\"",
     "fmt-check": "prettier --check \"*.json\" \"src/**/*.{ts,tsx}\"",
