@@ -6,6 +6,8 @@ import info.ditrapani.model.Player
 import info.ditrapani.model.parsePlay
 import io.vertx.core.Vertx
 import io.vertx.core.http.CookieSameSite
+import io.vertx.core.http.HttpServerResponse
+import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.SessionHandler
 import io.vertx.ext.web.handler.StaticHandler
@@ -40,10 +42,20 @@ class Server(
             val session = routingContext.session()
             val player = playerCounter.getAndInc()
             if (player == null) {
-                routingContext.response().end("Game is full; you are a spectator")
+                routingContext.response().sendJson(
+                        json {
+                            obj(
+                                    "status" to "unregistered",
+                                    "result" to "Game is full; you are a spectator"
+                            )
+                        }
+                )
             } else {
                 session.put("player", player)
-                routingContext.response().end("registered as player # $player")
+                routingContext.response().sendJson(json { obj(
+                        "player" to player.name,
+                        "status" to "registered"
+                )})
             }
         }
         router.get("/ready").handler { routingContext ->
@@ -53,10 +65,7 @@ class Server(
                     "count" to playerCounter.count()
                 )
             }
-            routingContext
-                .response()
-                .putHeader("Content-Type", "application/json")
-                .end(body.toString())
+            routingContext.response().sendJson(body)
         }
         router.get("/status").handler { routingContext ->
             val session = routingContext.session()
@@ -72,8 +81,7 @@ class Server(
             if (player != game.currentPlayer) {
                 val response = routingContext.response()
                 response.setStatusCode(400)
-                response.putHeader("Content-Type", "application/json")
-                response.end("Not your turn!")
+                response.sendJson(json { obj("error" to "Not your turn!") })
             } else {
                 val request = routingContext.request()
                 val location = request.getParam("location")
@@ -82,15 +90,21 @@ class Server(
                 logger.info("location: $location color: $color row: $row")
                 val play = parsePlay(player, location, color, row)
                 game.update(play)
-                val response = routingContext.response()
-                response.putHeader("Content-Type", "application/json")
-                response.end("OK")
+                routingContext
+                        .response()
+                        .sendJson(json { obj("result" to "OK")})
             }
         }
         val server = vertx.createHttpServer().requestHandler(router)
         server.listenAwait(PORT)
         println("Test server listening on port $PORT")
     }
+}
+
+fun HttpServerResponse.sendJson(json: JsonObject): HttpServerResponse {
+    putHeader("Content-Type", "application/json")
+    end(json.toString())
+    return this
 }
 
 fun main() {
