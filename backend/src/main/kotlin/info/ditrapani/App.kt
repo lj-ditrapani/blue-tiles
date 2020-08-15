@@ -3,6 +3,7 @@ package info.ditrapani
 import info.ditrapani.game.Game
 import info.ditrapani.game.newGame
 import info.ditrapani.model.Player
+import info.ditrapani.model.parsePlay
 import io.vertx.core.Vertx
 import io.vertx.core.http.CookieSameSite
 import io.vertx.ext.web.Router
@@ -52,7 +53,10 @@ class Server(
                     "count" to playerCounter.count()
                 )
             }
-            routingContext.response().end(body.toString())
+            routingContext
+                .response()
+                .putHeader("Content-Type", "application/json")
+                .end(body.toString())
         }
         router.get("/status").handler { routingContext ->
             val session = routingContext.session()
@@ -63,16 +67,24 @@ class Server(
         }
         router.post("/play/:location/:color/:row").handler { routingContext ->
             val session = routingContext.session()
-            val playerNumber = session.get<Int?>("playerNumber")
-            logger.info("Player number: $playerNumber")
-            val request = routingContext.request()
-            val location = request.getParam("location")
-            val color = request.getParam("color")
-            val row = request.getParam("row")
-            logger.info("location: $location color: $color row: $row")
-            val response = routingContext.response()
-            response.putHeader("Content-Type", "application/json")
-            response.end("play...")
+            val player = session.get<Player?>("player")
+            logger.info("Player: $player")
+            if (player != game.currentPlayer) {
+                val response = routingContext.response()
+                response.setStatusCode(400)
+                response.putHeader("Content-Type", "application/json")
+                response.end("Not your turn!")
+            } else {
+                val request = routingContext.request()
+                val location = request.getParam("location")
+                val color = request.getParam("color")
+                val row = request.getParam("row")
+                logger.info("location: $location color: $color row: $row")
+                val play = parsePlay(player, location, color, row)
+                val response = routingContext.response()
+                response.putHeader("Content-Type", "application/json")
+                response.end("OK")
+            }
         }
         val server = vertx.createHttpServer().requestHandler(router)
         server.listenAwait(PORT)

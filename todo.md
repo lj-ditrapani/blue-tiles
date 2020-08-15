@@ -1,4 +1,3 @@
-- post play
 - create frontend skeleton
     - calls register
     - Loop call ready

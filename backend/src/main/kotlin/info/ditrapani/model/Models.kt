@@ -30,6 +30,9 @@ data class Play(
     val row: Int
 )
 
+fun parsePlay(player: Player, location: String, color: String, row: String): Play =
+    Play(player, parseLocation(location), Color.valueOf(color), row.toInt())
+
 sealed class Location
 object Leftovers : Location()
 data class FactoryDisplay(val number: Int) : Location()
