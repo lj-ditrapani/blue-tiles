@@ -3,6 +3,7 @@ package info.ditrapani.factory
 import info.ditrapani.game.Supply
 import info.ditrapani.game.Trash
 import info.ditrapani.model.DisplayLocation
+import info.ditrapani.model.LeftoversLocation
 import info.ditrapani.model.Maybe
 import info.ditrapani.model.Play
 import io.vertx.core.json.JsonArray
@@ -23,7 +24,7 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         return when (location) {
             is DisplayLocation ->
                 displays[location.number - 1].take(play.color)
-            info.ditrapani.model.LeftoversLocation ->
+            LeftoversLocation ->
                 leftovers.take(play.color)
         }
     }
