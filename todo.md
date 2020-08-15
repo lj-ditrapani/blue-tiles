@@ -1,6 +1,3 @@
-- need winner: Player? field
-    - null means game is on
-    - Player means game is over
 - create frontend skeleton
     - calls register
     - Loop call ready

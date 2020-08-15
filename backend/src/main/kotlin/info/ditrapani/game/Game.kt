@@ -53,7 +53,8 @@ data class Game(
     val board1: Board,
     val board2: Board,
     val board3: Board,
-    var lastPlay: PlayRecord?
+    var lastPlay: PlayRecord?,
+    var winner: Player?
 ) {
     fun update(play: Play): Result {
         // do factory offer
@@ -92,7 +93,9 @@ data class Game(
                 "board1" to board1.toJson(),
                 "board2" to board1.toJson(),
                 "board3" to board1.toJson(),
-                "lastPlay" to lastPlay.toJson()
+                "lastPlay" to lastPlay.toJson(),
+                "winner" to winner?.name
+
             )
         }
 }
@@ -125,6 +128,7 @@ fun newGame(): Game {
         newBoard,
         newBoard,
         newBoard,
+        null,
         null
     )
 }
