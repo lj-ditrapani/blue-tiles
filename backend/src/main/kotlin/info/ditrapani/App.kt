@@ -36,8 +36,12 @@ class Server(
         router.post("/register").handler { routingContext ->
             val session = routingContext.session()
             val player = playerCounter.getAndInc()
-            session.put("player", player)
-            routingContext.response().end("registered as player # $player")
+            if (player == null) {
+                routingContext.response().end("Game is full; you are a spectator")
+            } else {
+                session.put("player", player)
+                routingContext.response().end("registered as player # $player")
+            }
         }
         router.get("/status").handler { routingContext ->
             val session = routingContext.session()
@@ -68,11 +72,13 @@ class Server(
 class PlayerCounter {
     private var i = 0
 
-    fun getAndInc(): Player {
-        val temp = "P${i + 1}"
-        i = (i + 1) % 3
-        return Player.valueOf(temp)
-    }
+    fun getAndInc(): Player? =
+        if (i == 3) {
+            null
+        } else {
+            i = i + 1
+            Player.valueOf("P$i")
+        }
 }
 
 fun main() {
