@@ -5,6 +5,7 @@ import info.ditrapani.board.newBoard
 import info.ditrapani.factory.Factory
 import info.ditrapani.factory.newFactoryFromSupply
 import info.ditrapani.model.Color
+import info.ditrapani.model.Play
 import info.ditrapani.model.PlayRecord
 import info.ditrapani.model.Player
 import info.ditrapani.model.toJson
@@ -52,6 +53,18 @@ data class Game(
     val board3: Board,
     var lastPlay: PlayRecord?
 ) {
+    fun applyPlay(play: Play) {
+        val count = factory.applyPlay(play)
+        val playRecord = PlayRecord(count, play)
+        val player = play.player
+        when (player) {
+            Player.P1 -> board1.update(playRecord, trash)
+            Player.P2 -> board2.update(playRecord, trash)
+            Player.P3 -> board3.update(playRecord, trash)
+        }
+        lastPlay = playRecord
+    }
+
     fun toJson(player: Player?): JsonObject =
         json {
             obj(

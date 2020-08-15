@@ -81,6 +81,7 @@ class Server(
                 val row = request.getParam("row")
                 logger.info("location: $location color: $color row: $row")
                 val play = parsePlay(player, location, color, row)
+                game.applyPlay(play)
                 val response = routingContext.response()
                 response.putHeader("Content-Type", "application/json")
                 response.end("OK")

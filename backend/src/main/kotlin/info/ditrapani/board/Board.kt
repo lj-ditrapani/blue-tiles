@@ -1,7 +1,9 @@
 package info.ditrapani.board
 
+import info.ditrapani.game.Trash
 import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
+import info.ditrapani.model.PlayRecord
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.array
@@ -57,6 +59,9 @@ data class Board(
     var nextFirstPlayer: Maybe,
     val floor: MutableList<Color>
 ) {
+    fun update(playRecord: PlayRecord, trash: Trash) {
+    }
+
     fun toJson(): JsonObject =
         json {
             obj(
