@@ -8,11 +8,11 @@ data class Play(
     val player: Player,
     val location: Location,
     val color: Color,
-    val row: Int
+    val moveTo: MoveTo
 )
 
-fun parsePlay(player: Player, location: String, color: String, row: String): Play =
-    Play(player, parseLocation(location), Color.valueOf(color), row.toInt())
+fun parsePlay(player: Player, location: String, color: String, moveTo: String): Play =
+    Play(player, parseLocation(location), Color.valueOf(color), parseMoveTo(moveTo))
 
 sealed class Location
 object LeftoversLocation : Location()
@@ -33,10 +33,25 @@ data class PlayRecord(val tileCount: Int, val play: Play) {
                 "location" to play.location.toString(),
                 "color" to play.color.name,
                 "tileCount" to tileCount,
-                "row" to play.row
+                "moveTo" to play.moveTo.toString()
             )
         }
 }
 
 fun PlayRecord?.toJson(): JsonObject? =
     this?.toJson()
+
+sealed class MoveTo
+object MoveToFloor : MoveTo() {
+    override fun toString() = "floor"
+}
+data class MoveToRow(val row: Int) : MoveTo() {
+    override fun toString() = "row$row"
+}
+
+fun parseMoveTo(str: String): MoveTo =
+    if (str == "floor") {
+        MoveToFloor
+    } else {
+        MoveToRow(str[3].toInt())
+    }

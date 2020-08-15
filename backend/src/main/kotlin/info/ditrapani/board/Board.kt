@@ -2,6 +2,8 @@ package info.ditrapani.board
 
 import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
+import info.ditrapani.model.MoveToFloor
+import info.ditrapani.model.MoveToRow
 import info.ditrapani.model.PlayRecord
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
@@ -24,19 +26,30 @@ data class Board(
         val tileCount = playRecord.tileCount
         val play = playRecord.play
         val color = play.color
-        val row = play.row
-        when (row) {
-            1 -> doUpdate(line1, color, tileCount, 1)
-            2 -> doUpdate(line2, color, tileCount, 2)
-            3 -> doUpdate(line3, color, tileCount, 3)
-            4 -> doUpdate(line4, color, tileCount, 4)
-            5 -> doUpdate(line5, color, tileCount, 5)
+        val moveTo = play.moveTo
+        when (moveTo) {
+            is MoveToRow ->
+                when (moveTo.row) {
+                    1 -> updateLine(line1, color, tileCount, 1)
+                    2 -> updateLine(line2, color, tileCount, 2)
+                    3 -> updateLine(line3, color, tileCount, 3)
+                    4 -> updateLine(line4, color, tileCount, 4)
+                    5 -> updateLine(line5, color, tileCount, 5)
+                }
+            MoveToFloor ->
+                updateFloor(color, tileCount)
         }
     }
 
-    private fun doUpdate(row: PatternLine?, color: Color, tileCount: Int, max: Int) {
+    private fun updateLine(row: PatternLine?, color: Color, tileCount: Int, max: Int) {
         val floorTileCount = row.add(color, tileCount, max)
         0.until(floorTileCount).forEach {
+            floor.add(color)
+        }
+    }
+
+    private fun updateFloor(color: Color, tileCount: Int) {
+        0.until(tileCount).forEach {
             floor.add(color)
         }
     }

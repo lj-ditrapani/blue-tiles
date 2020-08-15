@@ -1,7 +1,6 @@
 - need winner: Player? field
     - null means game is on
     - Player means game is over
-- Rename Location item to remove clash
 - Play row needs to become Play move : Row | Floor
 - PlayRecord needs firstPlayer: Maybe field!
     - once we applyPlay on factory, we should know the tileCount taken AND if firstPlayer was taken
@@ -15,6 +14,8 @@
         - once your turn, stop update UI for player's turn
     - Collect fields: location, color, row
     - Button play -> calls play -> shows result -> return to status loop
+- Adding tiles to Board floor:
+    - if more than floor slots, put remainder in trash
 - post register: on count == 3; -> ready to play
 - dockerize
 - make game anti-cheat
