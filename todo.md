@@ -1,4 +1,3 @@
-- parse rest of game
 - render factory (buttons)
 - render boards
 - create frontend skeleton

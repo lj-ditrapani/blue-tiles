@@ -1,30 +1,10 @@
 import React from 'react'
 import './App.css'
-import {
-  Player,
-  parsePlayer,
-  parsePlayerOrNull,
-  Factory,
-  PlayRecord,
-  Board,
-} from './models'
+import { Game, Player, parsePlayer, parsePlayerOrNull } from './models'
+import { GameComp } from './GameComp'
 
 type AppProps = {
   hi: String
-}
-
-type Game = {
-  requestingPerson: Player | null
-  currentFirstPlayer: Player
-  currentPlayer: Player
-  supplyCount: number
-  trashCount: number
-  factory: Factory
-  board1: Board
-  board2: Board
-  board3: Board
-  lastPlay: PlayRecord
-  winner: Player | null
 }
 
 type AppState = {
@@ -125,30 +105,13 @@ class App extends React.Component<AppProps, AppState> {
           <p> waiting for {3 - this.state.playerCount} players to join </p>
           <p> this.props.hi </p>
           <p> You are player {this.state.player} </p>
-          {this.renderGame(this.state.game)}
+          <GameComp game={this.state.game} />
         </div>
       )
     } else {
       return (
         <div className="App">
           <p> Registering user </p>
-        </div>
-      )
-    }
-  }
-
-  renderGame(game: Game | null) {
-    if (game === null) {
-      return <p>No game state yet</p>
-    } else {
-      return (
-        <div>
-          <p>requestingPerson: {game.requestingPerson}</p>
-          <p>currentFirstPlayer: {game.currentFirstPlayer}</p>
-          <p>currentPlayer: {game.currentPlayer}</p>
-          <p>supplyCount: {game.supplyCount}</p>
-          <p>trashCount: {game.trashCount}</p>
-          <p>winner: {String(game.winner)}</p>
         </div>
       )
     }

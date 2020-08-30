@@ -23,6 +23,20 @@ export const parsePlayerOrNull = (str: string | null | undefined): Player | null
   }
 }
 
+export type Game = {
+  requestingPerson: Player | null
+  currentFirstPlayer: Player
+  currentPlayer: Player
+  supplyCount: number
+  trashCount: number
+  factory: Factory
+  board1: Board
+  board2: Board
+  board3: Board
+  lastPlay: PlayRecord
+  winner: Player | null
+}
+
 export type Factory = {
   displays: Display[]
   leftovers: Leftovers
