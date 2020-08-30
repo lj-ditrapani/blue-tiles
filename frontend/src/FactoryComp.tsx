@@ -1,5 +1,6 @@
 import React from 'react'
 import { Display, Factory, Leftovers } from './models'
+import { Button } from '@material-ui/core'
 
 type FactoryProps = {
   factory: Factory
@@ -43,10 +44,10 @@ function DisplayComp(props: DisplayProps) {
   const display = props.display
   return (
     <span>
-      <button>{display.slot1}</button>
-      <button>{display.slot2}</button>
-      <button>{display.slot3}</button>
-      <button>{display.slot4}</button>
+      <Button>{display.slot1}</Button>
+      <Button>{display.slot2}</Button>
+      <Button>{display.slot3}</Button>
+      <Button>{display.slot4}</Button>
     </span>
   )
 }
@@ -60,11 +61,11 @@ function LeftoversComp(props: LeftoverProps) {
   return (
     <span>
       {leftovers.nextFirstPlayer === 'PRESENT' ? 'NextFirstPlayer' : ''}
-      <button>{leftovers.whites} whites</button>
-      <button>{leftovers.reds} reds</button>
-      <button>{leftovers.blues} blues</button>
-      <button>{leftovers.greens} greens</button>
-      <button>{leftovers.blacks} blacks</button>
+      <Button>{leftovers.whites} whites</Button>
+      <Button>{leftovers.reds} reds</Button>
+      <Button>{leftovers.blues} blues</Button>
+      <Button>{leftovers.greens} greens</Button>
+      <Button>{leftovers.blacks} blacks</Button>
     </span>
   )
 }
