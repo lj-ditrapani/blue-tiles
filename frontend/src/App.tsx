@@ -1,6 +1,13 @@
 import React from 'react'
 import './App.css'
-import { Player, parsePlayer, parsePlayerOrNull, Factory, PlayRecord } from './models'
+import {
+  Player,
+  parsePlayer,
+  parsePlayerOrNull,
+  Factory,
+  PlayRecord,
+  Board,
+} from './models'
 
 type AppProps = {
   hi: String
@@ -13,11 +20,9 @@ type Game = {
   supplyCount: number
   trashCount: number
   factory: Factory
-  /*
-  "board1" to board1.toJson(),
-  "board2" to board1.toJson(),
-  "board3" to board1.toJson(),
-  */
+  board1: Board
+  board2: Board
+  board3: Board
   lastPlay: PlayRecord
   winner: Player | null
 }
@@ -94,6 +99,9 @@ class App extends React.Component<AppProps, AppState> {
         supplyCount: body.supplyCount,
         trashCount: body.trashCount,
         factory: body.factory,
+        board1: body.board1,
+        board2: body.board2,
+        board3: body.board3,
         lastPlay: body.lastPlay,
         winner: parsePlayerOrNull(body.winner),
       },

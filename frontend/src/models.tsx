@@ -52,3 +52,36 @@ export type PlayRecord = {
   nextFirstPlayer: Maybe
   moveTo: string
 }
+
+export type Board = {
+  score: number
+  line1: PatternLine | null
+  line2: PatternLine | null
+  line3: PatternLine | null
+  line4: PatternLine | null
+  line5: PatternLine | null
+  wall: Wall
+  nextFirstPlayer: Maybe
+  floor: Color[]
+}
+
+export type PatternLine = {
+  color: Color
+  count: number
+}
+
+export type Wall = {
+  line1: WallLine
+  line2: WallLine
+  line3: WallLine
+  line4: WallLine
+  line5: WallLine
+}
+
+export type WallLine = {
+  c1: Maybe
+  c2: Maybe
+  c3: Maybe
+  c4: Maybe
+  c5: Maybe
+}
