@@ -18,7 +18,6 @@ export class GameComp extends React.Component<GameProps> {
           <p>currentPlayer: {game.currentPlayer}</p>
           <p>supplyCount: {game.supplyCount}</p>
           <p>trashCount: {game.trashCount}</p>
-          <p>factory: {game.factory}</p>
           <p>winner: {String(game.winner)}</p>
         </div>
       )

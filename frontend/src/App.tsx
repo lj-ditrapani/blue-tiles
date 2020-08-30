@@ -3,10 +3,6 @@ import './App.css'
 import { Game, Player, parsePlayer, parsePlayerOrNull } from './models'
 import { GameComp } from './GameComp'
 
-type AppProps = {
-  hi: String
-}
-
 type AppState = {
   registered: boolean
   ready: boolean
@@ -15,9 +11,9 @@ type AppState = {
   game: Game | null
 }
 
-class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props)
+class App extends React.Component<{}, AppState> {
+  constructor() {
+    super({})
     this.state = {
       registered: false,
       ready: false,
@@ -103,7 +99,6 @@ class App extends React.Component<AppProps, AppState> {
           <p> Registered </p>
           <p> is ready? {String(this.state.ready)} </p>
           <p> waiting for {3 - this.state.playerCount} players to join </p>
-          <p> this.props.hi </p>
           <p> You are player {this.state.player} </p>
           <GameComp game={this.state.game} />
         </div>

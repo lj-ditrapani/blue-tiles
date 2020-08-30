@@ -1,4 +1,12 @@
 - render factory (buttons)
+    - need component to render each object
+        - factory
+            - display
+            - leftovers
+        - board
+            - pattern line
+            - wall
+                - wall line
 - render boards
 - create frontend skeleton
     - Loop call status -> shows status payload
