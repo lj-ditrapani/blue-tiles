@@ -1,5 +1,5 @@
 import React from 'react'
-import { Display, Factory, Leftovers } from './models'
+import { Color, Display, Factory, Leftovers } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 
@@ -58,16 +58,16 @@ function DisplayComp(props: DisplayProps) {
   return (
     <Grid container spacing={0}>
       <Grid item xs={6}>
-        <Button>{display.slot1}</Button>
+        <TileComp color={display.slot1}/>
       </Grid>
       <Grid item xs={6}>
-        <Button>{display.slot2}</Button>
+        <TileComp color={display.slot2}/>
       </Grid>
       <Grid item xs={6}>
-        <Button>{display.slot3}</Button>
+        <TileComp color={display.slot3}/>
       </Grid>
       <Grid item xs={6}>
-        <Button>{display.slot4}</Button>
+        <TileComp color={display.slot4}/>
       </Grid>
     </Grid>
   )
@@ -85,20 +85,57 @@ function LeftoversComp(props: LeftoverProps) {
         {leftovers.nextFirstPlayer === 'PRESENT' ? 'NextFirstPlayer' : ''}
       </Grid>
       <Grid item xs={2}>
-        <Button>{leftovers.whites} whites</Button>
+        <TileSetComp color='WHITE' count={leftovers.whites} />
       </Grid>
       <Grid item xs={2}>
-        <Button>{leftovers.reds} reds</Button>
+        <TileSetComp color='RED' count={leftovers.reds} />
       </Grid>
       <Grid item xs={2}>
-        <Button>{leftovers.blues} blues</Button>
+        <TileSetComp color='BLUE' count={leftovers.blues} />
       </Grid>
       <Grid item xs={2}>
-        <Button>{leftovers.greens} greens</Button>
+        <TileSetComp color='GREEN' count={leftovers.greens} />
       </Grid>
       <Grid item xs={2}>
-        <Button>{leftovers.blacks} blacks</Button>
+        <TileSetComp color='BLACK' count={leftovers.blacks} />
       </Grid>
     </Grid>
   )
+}
+
+type TileProps = {
+  color: Color | null
+}
+
+function TileComp(props: TileProps)  {
+  const color = props.color
+  return <Button variant="contained" disabled={color === null}>{tileToLetter(color)}</Button>
+}
+
+type TileSetProps = {
+  color: Color
+  count: number
+}
+
+function TileSetComp(props: TileSetProps)  {
+  const color = props.color
+  const count = props.count
+  return <Button variant="contained" disabled={count === 0}>{count} {color.toLowerCase() + 's'}</Button>
+}
+
+function tileToLetter(color: Color | null): string {
+  switch(color) {
+    case null:
+      return 'E'
+    case 'WHITE':
+      return 'W'
+    case 'RED':
+      return 'R'
+    case 'BLUE':
+      return 'B'
+    case 'GREEN':
+      return 'G'
+    case 'BLACK':
+      return 'K'
+  }
 }
