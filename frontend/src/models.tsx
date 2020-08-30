@@ -43,3 +43,12 @@ export type Leftovers = {
   blacks: number
   nextFirstPlayer: Maybe
 }
+
+export type PlayRecord = {
+  player: Player
+  location: string
+  color: Color
+  tileCount: number
+  nextFirstPlayer: Maybe
+  moveTo: string
+}

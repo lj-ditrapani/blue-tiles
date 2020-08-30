@@ -15,8 +15,12 @@ fun parsePlay(player: Player, location: String, color: String, moveTo: String): 
     Play(player, parseLocation(location), Color.valueOf(color), parseMoveTo(moveTo))
 
 sealed class Location
-object LeftoversLocation : Location()
-data class DisplayLocation(val number: Int) : Location()
+object LeftoversLocation : Location() {
+    override fun toString(): String = "leftovers"
+}
+data class DisplayLocation(val number: Int) : Location() {
+    override fun toString(): String = "Display # $number"
+}
 
 fun parseLocation(str: String): Location =
     if (str == "leftovers") {
