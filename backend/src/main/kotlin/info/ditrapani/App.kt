@@ -43,19 +43,23 @@ class Server(
             val player = playerCounter.getAndInc()
             if (player == null) {
                 routingContext.response().sendJson(
-                        json {
-                            obj(
-                                    "status" to "unregistered",
-                                    "result" to "Game is full; you are a spectator"
-                            )
-                        }
+                    json {
+                        obj(
+                            "status" to "unregistered",
+                            "result" to "Game is full; you are a spectator"
+                        )
+                    }
                 )
             } else {
                 session.put("player", player)
-                routingContext.response().sendJson(json { obj(
-                        "player" to player.name,
-                        "status" to "registered"
-                )})
+                routingContext.response().sendJson(
+                    json {
+                        obj(
+                            "player" to player.name,
+                            "status" to "registered"
+                        )
+                    }
+                )
             }
         }
         router.get("/ready").handler { routingContext ->
@@ -91,8 +95,8 @@ class Server(
                 val play = parsePlay(player, location, color, row)
                 game.update(play)
                 routingContext
-                        .response()
-                        .sendJson(json { obj("result" to "OK")})
+                    .response()
+                    .sendJson(json { obj("result" to "OK") })
             }
         }
         val server = vertx.createHttpServer().requestHandler(router)

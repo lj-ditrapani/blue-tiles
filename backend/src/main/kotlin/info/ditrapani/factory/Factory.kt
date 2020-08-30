@@ -43,7 +43,7 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
     fun toJson(): JsonObject =
         json {
             obj(
-                "displays" to JsonArray(displays.map { it.toJsonArray() }),
+                "displays" to JsonArray(displays.map { it.toJson() }),
                 "leftovers" to leftovers.toJson()
             )
         }

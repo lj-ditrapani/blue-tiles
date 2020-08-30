@@ -4,9 +4,9 @@ import info.ditrapani.game.Supply
 import info.ditrapani.game.Trash
 import info.ditrapani.game.getTile
 import info.ditrapani.model.Color
-import io.vertx.core.json.JsonArray
-import io.vertx.kotlin.core.json.array
+import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.json
+import io.vertx.kotlin.core.json.obj
 
 data class Display(
     var slot1: Color?,
@@ -48,13 +48,13 @@ data class Display(
         return count
     }
 
-    fun toJsonArray(): JsonArray =
+    fun toJson(): JsonObject =
         json {
-            array(
-                slot1?.toString(),
-                slot2?.toString(),
-                slot3?.toString(),
-                slot4?.toString()
+            obj(
+                "slot1" to slot1?.toString(),
+                "slot2" to slot2?.toString(),
+                "slot3" to slot3?.toString(),
+                "slot4" to slot4?.toString()
             )
         }
 }
