@@ -93,9 +93,6 @@ class App extends React.Component<{}, AppState> {
     if (this.state.registered) {
       return (
         <div className="App">
-          <div>
-            <button>Play</button>
-          </div>
           <p> Registered </p>
           <p> is ready? {String(this.state.ready)} </p>
           <p> waiting for {3 - this.state.playerCount} players to join </p>
