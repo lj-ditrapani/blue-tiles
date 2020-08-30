@@ -1,6 +1,9 @@
 package info.ditrapani.board
 
 import info.ditrapani.model.Maybe
+import io.vertx.core.json.JsonObject
+import io.vertx.kotlin.core.json.json
+import io.vertx.kotlin.core.json.obj
 
 data class WallLine(
     var c1: Maybe,
@@ -8,7 +11,18 @@ data class WallLine(
     var c3: Maybe,
     var c4: Maybe,
     var c5: Maybe
-)
+) {
+    fun toJson(): JsonObject =
+        json {
+            obj(
+                "c1" to c1.toString(),
+                "c2" to c2.toString(),
+                "c3" to c3.toString(),
+                "c4" to c4.toString(),
+                "c5" to c5.toString()
+            )
+        }
+}
 
 fun newGridRow(): WallLine = WallLine(
     Maybe.MISSING,
@@ -26,6 +40,17 @@ data class Wall(
     val line5: WallLine
 ) {
     fun isGameOver(): Boolean = true
+
+    fun toJson(): JsonObject =
+        json {
+            obj(
+                "line1" to line1.toJson(),
+                "line2" to line2.toJson(),
+                "line3" to line3.toJson(),
+                "line4" to line4.toJson(),
+                "line5" to line5.toJson()
+            )
+        }
 }
 
 fun newWall(): Wall =

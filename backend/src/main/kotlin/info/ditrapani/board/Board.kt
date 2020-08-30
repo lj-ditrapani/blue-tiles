@@ -7,7 +7,6 @@ import info.ditrapani.model.MoveToRow
 import info.ditrapani.model.PlayRecord
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
-import io.vertx.kotlin.core.json.array
 import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
 
@@ -61,16 +60,12 @@ data class Board(
         json {
             obj(
                 "score" to score,
-                "rows" to json {
-                    array(
-                        line1?.toJson(),
-                        line2?.toJson(),
-                        line3?.toJson(),
-                        line4?.toJson(),
-                        line5?.toJson()
-                    )
-                },
-                "grid" to wall.toString(),
+                "line1" to line1?.toJson(),
+                "line2" to line2?.toJson(),
+                "line3" to line3?.toJson(),
+                "line4" to line4?.toJson(),
+                "line5" to line5?.toJson(),
+                "wall" to wall.toJson(),
                 "nextFirstPlayer" to nextFirstPlayer.toString(),
                 "floor" to JsonArray(floor.map { it.toString() })
             )
