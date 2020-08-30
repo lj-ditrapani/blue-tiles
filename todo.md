@@ -1,6 +1,6 @@
-- Type Game?
-    - pull out currentPlayer
-    - check for match
+- parse rest of game
+- render factory (buttons)
+- render boards
 - create frontend skeleton
     - Loop call status -> shows status payload
         - once your turn, stop; update UI for player's turn

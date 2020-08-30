@@ -2,6 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+### `npm run build-and-copy`
+
 In the project directory, you can run:
 
 ### `npm run copy-to-backend`

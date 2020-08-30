@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import { Player, parsePlayer, parsePlayerOrNull, Factory} from './models'
 
 type AppProps = {
   hi: String
@@ -9,9 +10,9 @@ type Game = {
   requestingPerson: Player | null
   currentFirstPlayer: Player
   currentPlayer: Player
-  // "factory" to factory.toJson(),
   supplyCount: number
   trashCount: number
+  factory: Factory
   /*
   "board1" to board1.toJson(),
   "board2" to board1.toJson(),
@@ -84,22 +85,32 @@ class App extends React.Component<AppProps, AppState> {
     const body = await result.json()
     console.log('called status:')
     console.log(body)
+    const currentPlayer = parsePlayer(body.currentPlayer)
     this.setState({
       game: {
         requestingPerson: parsePlayerOrNull(body.requestingPerson),
         currentFirstPlayer: parsePlayer(body.currentFirstPlayer),
-        currentPlayer: parsePlayer(body.currentPlayer),
+        currentPlayer: currentPlayer,
         supplyCount: body.supplyCount,
         trashCount: body.trashCount,
+        factory: body.factory,
         winner: parsePlayerOrNull(body.winner),
       },
     })
+    if (currentPlayer === this.state.player) {
+      console.log('Your turn!')
+    } else {
+      setTimeout(() => this.gameLoop(), 500)
+    }
   }
 
   render() {
     if (this.state.registered) {
       return (
         <div className="App">
+          <div>
+            <button>Play</button>
+          </div>
           <p> Registered </p>
           <p> is ready? {String(this.state.ready)} </p>
           <p> waiting for {3 - this.state.playerCount} players to join </p>
@@ -135,27 +146,4 @@ class App extends React.Component<AppProps, AppState> {
   }
 }
 
-type Player = 'P1' | 'P2' | 'P3'
-
 export default App
-
-const parsePlayer = (str: string | null | undefined): Player => {
-  const p = parsePlayerOrNull(str)
-  if (p === null) {
-    throw Error('Player is null')
-  } else {
-    return p
-  }
-}
-
-const parsePlayerOrNull = (str: string | null | undefined): Player | null => {
-  if (str === 'P1') {
-    return 'P1'
-  } else if (str === 'P2') {
-    return 'P2'
-  } else if (str === 'P3') {
-    return 'P3'
-  } else {
-    return null
-  }
-}

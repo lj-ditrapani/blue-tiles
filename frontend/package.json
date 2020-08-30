@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "fmt": "prettier --write \"*.json\" \"src/**/*.{ts,tsx}\"",
     "fmt-check": "prettier --check \"*.json\" \"src/**/*.{ts,tsx}\"",
-    "copy-to-backend": "rm -fr ../backend/src/main/resources/webroot/* && cp -R build/* ../backend/src/main/resources/webroot"
+    "copy-to-backend": "rm -fr ../backend/src/main/resources/webroot/* && cp -R build/* ../backend/src/main/resources/webroot",
+    "build-and-copy": "npm run build && npm run copy-to-backend"
   },
   "eslintConfig": {
     "extends": "react-app"
