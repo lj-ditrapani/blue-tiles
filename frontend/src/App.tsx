@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import { Game, Player, parsePlayer, parsePlayerOrNull } from './models'
 import { GameComp } from './GameComp'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 type AppState = {
   registered: boolean
@@ -93,10 +94,15 @@ class App extends React.Component<{}, AppState> {
     if (this.state.registered) {
       return (
         <div className="App">
-          <p> Registered </p>
-          <p> is ready? {String(this.state.ready)} </p>
-          <p> waiting for {3 - this.state.playerCount} players to join </p>
-          <p> You are player {this.state.player} </p>
+          <CssBaseline />
+          <p>
+            {
+              this.state.ready ?
+              "" :
+              `Waiting for ${3 - this.state.playerCount} players to join. `
+            }
+            You are player {this.state.player}
+          </p>
           <GameComp game={this.state.game} />
         </div>
       )
