@@ -1,6 +1,14 @@
 import React from 'react'
 import './App.css'
-import { Color, Game, Location, Player, parsePlayer, parsePlayerOrNull } from './models'
+import {
+  Color,
+  Game,
+  Location,
+  MoveTo,
+  Player,
+  parsePlayer,
+  parsePlayerOrNull,
+} from './models'
 import { GameComp } from './GameComp'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
@@ -30,6 +38,20 @@ class App extends React.Component<{}, AppState> {
 
   componentDidMount() {
     this.setup()
+  }
+
+  onTileSelect(location: Location, color: Color) {
+    // if requested player === currentPlayer
+    this.setState({
+      selectedLocation: location,
+      selectedColor: color,
+    })
+  }
+
+  onLineSelect(moveTo: MoveTo) {
+    // if requested player === currentPlayer
+    // if selectedLocation && selectedColor are not null
+    fetch(`/play/${this.state.selectedLocation}/${this.state.selectedColor}/${moveTo}`)
   }
 
   async setup() {
@@ -104,8 +126,9 @@ class App extends React.Component<{}, AppState> {
           <p>
             {this.state.ready
               ? ''
-              : `Waiting for ${3 - this.state.playerCount} players to join. `}
-            You are player {this.state.player}
+              : `Waiting for ${
+                  3 - this.state.playerCount
+                } players to join.  You are player ${this.state.player}`}
           </p>
           <GameComp game={this.state.game} />
         </div>

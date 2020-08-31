@@ -102,11 +102,8 @@ export type WallLine = {
 
 export type DisplayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7
 
-export class DisplayLocation {
-  constructor(public readonly displayNumber: DisplayNumber) {}
+export type Location = 'leftovers' | DisplayNumber
 
-  toString() {
-    return `display${this.displayNumber}`
-  }
-}
-export type Location = 'leftovers' | DisplayLocation
+export type LineNumber = 1 | 2 | 3 | 4 | 5
+
+export type MoveTo = 'floor' | LineNumber

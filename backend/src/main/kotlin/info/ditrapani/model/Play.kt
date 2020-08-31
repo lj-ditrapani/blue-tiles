@@ -51,12 +51,12 @@ object MoveToFloor : MoveTo() {
     override fun toString() = "floor"
 }
 data class MoveToRow(val row: Int) : MoveTo() {
-    override fun toString() = "row$row"
+    override fun toString() = "line # $row"
 }
 
 fun parseMoveTo(str: String): MoveTo =
     if (str == "floor") {
         MoveToFloor
     } else {
-        MoveToRow(str[3].toInt())
+        MoveToRow(str.toInt())
     }

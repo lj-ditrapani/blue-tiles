@@ -16,12 +16,26 @@ export function GameComp(props: GameProps) {
   } else {
     return (
       <div>
-        <p>
-          You are player {game.requestingPerson} | currentFirstPlayer:{' '}
-          {game.currentFirstPlayer} | currentPlayer: {game.currentPlayer} | supplyCount:{' '}
-          {game.supplyCount} | trashCount: {game.trashCount} | winner:{' '}
-          {String(game.winner)}
-        </p>
+        <Grid container spacing={0}>
+          <Grid item xs={2}>
+            You are player {game.requestingPerson}
+          </Grid>
+          <Grid item xs={2}>
+            currentFirstPlayer: {game.currentFirstPlayer}
+          </Grid>
+          <Grid item xs={2}>
+            currentPlayer: {game.currentPlayer}
+          </Grid>
+          <Grid item xs={2}>
+            supplyCount: {game.supplyCount}
+          </Grid>
+          <Grid item xs={2}>
+            trashCount: {game.trashCount}
+          </Grid>
+          <Grid item xs={2}>
+            winner: {game.winner === null ? 'None yet' : game.winner}
+          </Grid>
+        </Grid>
         <FactoryComp factory={game.factory} />
         <Grid container spacing={1}>
           <Grid item xs={4}>

@@ -78,7 +78,7 @@ class Server(
             response.putHeader("Content-Type", "application/json")
             response.end(game.toJson(player).toString())
         }
-        router.post("/play/:location/:color/:row").handler { routingContext ->
+        router.post("/play/:location/:color/:moveTo").handler { routingContext ->
             val session = routingContext.session()
             val player = session.get<Player?>("player")
             logger.info("Player: $player")
@@ -90,9 +90,9 @@ class Server(
                 val request = routingContext.request()
                 val location = request.getParam("location")
                 val color = request.getParam("color")
-                val row = request.getParam("row")
-                logger.info("location: $location color: $color row: $row")
-                val play = parsePlay(player, location, color, row)
+                val moveTo = request.getParam("moveTo")
+                logger.info("location: $location color: $color moveTo: $moveTo")
+                val play = parsePlay(player, location, color, moveTo)
                 game.update(play)
                 routingContext
                     .response()
