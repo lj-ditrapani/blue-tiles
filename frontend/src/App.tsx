@@ -54,7 +54,7 @@ class App extends React.Component<{}, AppState> {
     }
   }
 
-  onLineSelect = (boardNumber: Player, moveTo: MoveTo) => {
+  onLineSelect = async (boardNumber: Player, moveTo: MoveTo) => {
     const game = this.state.game
     const selectedLocation = this.state.selectedLocation
     const selectedColor = this.state.selectedColor
@@ -66,10 +66,11 @@ class App extends React.Component<{}, AppState> {
       selectedLocation !== null &&
       selectedColor !== null
     ) {
-      fetch(
+      await fetch(
         `/play/${this.state.selectedLocation}/${this.state.selectedColor}/${moveTo}`,
         { method: 'POST' }
       )
+      this.gameLoop()
     }
   }
 
