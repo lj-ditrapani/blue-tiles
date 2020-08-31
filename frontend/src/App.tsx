@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { Game, Player, parsePlayer, parsePlayerOrNull } from './models'
+import { Color, Game, Location, Player, parsePlayer, parsePlayerOrNull } from './models'
 import { GameComp } from './GameComp'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
@@ -10,6 +10,8 @@ type AppState = {
   player: Player | undefined
   playerCount: number
   game: Game | null
+  selectedLocation: Location | null
+  selectedColor: Color | null
 }
 
 class App extends React.Component<{}, AppState> {
@@ -21,6 +23,8 @@ class App extends React.Component<{}, AppState> {
       player: undefined,
       playerCount: 0,
       game: null,
+      selectedLocation: null,
+      selectedColor: null,
     }
   }
 
@@ -69,6 +73,8 @@ class App extends React.Component<{}, AppState> {
     console.log(body)
     const currentPlayer = parsePlayer(body.currentPlayer)
     this.setState({
+      selectedLocation: null,
+      selectedColor: null,
       game: {
         requestingPerson: parsePlayerOrNull(body.requestingPerson),
         currentFirstPlayer: parsePlayer(body.currentFirstPlayer),

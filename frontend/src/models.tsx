@@ -99,3 +99,14 @@ export type WallLine = {
   c4: Maybe
   c5: Maybe
 }
+
+export type DisplayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7
+
+export class DisplayLocation {
+  constructor(public readonly displayNumber: DisplayNumber) {}
+
+  toString() {
+    return `display${this.displayNumber}`
+  }
+}
+export type Location = 'leftovers' | DisplayLocation
