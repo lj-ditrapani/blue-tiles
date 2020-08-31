@@ -1,5 +1,5 @@
 import React from 'react'
-import { Color, Display, Factory, Leftovers, Location } from './models'
+import { Color, Display, Factory, Leftovers, Location, DisplayNumber } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import { colorToBgHex, colorToFgHex, tileToLetter } from './color'
@@ -11,6 +11,8 @@ type FactoryProps = {
 
 export function FactoryComp(props: FactoryProps) {
   const factory: Factory = props.factory
+  const handleClick = (num: DisplayNumber) => (color: Color) =>
+    props.onTileSelect(num, color)
   return (
     <div
       style={{
@@ -27,29 +29,36 @@ export function FactoryComp(props: FactoryProps) {
         <Grid item xs={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              Display 1 <DisplayComp display={factory.displays[0]} />
+              Display 1{' '}
+              <DisplayComp display={factory.displays[0]} onClick={handleClick(1)} />
             </Grid>
             <Grid item xs={3}>
-              Display 2 <DisplayComp display={factory.displays[1]} />
+              Display 2{' '}
+              <DisplayComp display={factory.displays[1]} onClick={handleClick(2)} />
             </Grid>
             <Grid item xs={3}>
-              Display 3 <DisplayComp display={factory.displays[2]} />
+              Display 3{' '}
+              <DisplayComp display={factory.displays[2]} onClick={handleClick(3)} />
             </Grid>
             <Grid item xs={3}>
-              Display 4 <DisplayComp display={factory.displays[3]} />
+              Display 4{' '}
+              <DisplayComp display={factory.displays[3]} onClick={handleClick(4)} />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              Display 5 <DisplayComp display={factory.displays[4]} />
+              Display 5{' '}
+              <DisplayComp display={factory.displays[4]} onClick={handleClick(5)} />
             </Grid>
             <Grid item xs={3}>
-              Display 6 <DisplayComp display={factory.displays[5]} />
+              Display 6{' '}
+              <DisplayComp display={factory.displays[5]} onClick={handleClick(6)} />
             </Grid>
             <Grid item xs={3}>
-              Display 7 <DisplayComp display={factory.displays[6]} />
+              Display 7{' '}
+              <DisplayComp display={factory.displays[6]} onClick={handleClick(7)} />
             </Grid>
             <Grid item xs={3}></Grid>
           </Grid>
@@ -65,6 +74,7 @@ export function FactoryComp(props: FactoryProps) {
 
 type DisplayProps = {
   display: Display
+  onClick: (color: Color) => void
 }
 
 function DisplayComp(props: DisplayProps) {
@@ -72,18 +82,41 @@ function DisplayComp(props: DisplayProps) {
   return (
     <Grid container spacing={0}>
       <Grid item xs={6}>
-        <TileComp color={display.slot1} />
+        <TileComp color={display.slot1} onClick={props.onClick} />
       </Grid>
       <Grid item xs={6}>
-        <TileComp color={display.slot2} />
+        <TileComp color={display.slot2} onClick={props.onClick} />
       </Grid>
       <Grid item xs={6}>
-        <TileComp color={display.slot3} />
+        <TileComp color={display.slot3} onClick={props.onClick} />
       </Grid>
       <Grid item xs={6}>
-        <TileComp color={display.slot4} />
+        <TileComp color={display.slot4} onClick={props.onClick} />
       </Grid>
     </Grid>
+  )
+}
+
+type TileProps = {
+  color: Color | null
+  onClick: (color: Color) => void
+}
+
+function TileComp(props: TileProps) {
+  const color = props.color
+  return (
+    <Button
+      style={{ backgroundColor: colorToBgHex(color), color: colorToFgHex(color) }}
+      variant="contained"
+      disabled={color === null}
+      onClick={() => {
+        if (color !== null) {
+          props.onClick(color)
+        }
+      }}
+    >
+      {tileToLetter(color)}
+    </Button>
   )
 }
 
@@ -94,45 +127,28 @@ type LeftoverProps = {
 
 function LeftoversComp(props: LeftoverProps) {
   const leftovers = props.leftovers
-  const onClick = (color: Color): void => props.onClick('leftovers', color)
+  const handleClick = (color: Color): void => props.onClick('leftovers', color)
   return (
     <Grid container spacing={2}>
       <Grid item xs={2}>
         {leftovers.nextFirstPlayer === 'PRESENT' ? 'NextFirstPlayer' : ''}
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="WHITE" count={leftovers.whites} onClick={onClick} />
+        <TileSetComp color="WHITE" count={leftovers.whites} onClick={handleClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="RED" count={leftovers.reds} onClick={onClick} />
+        <TileSetComp color="RED" count={leftovers.reds} onClick={handleClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="BLUE" count={leftovers.blues} onClick={onClick} />
+        <TileSetComp color="BLUE" count={leftovers.blues} onClick={handleClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="GREEN" count={leftovers.greens} onClick={onClick} />
+        <TileSetComp color="GREEN" count={leftovers.greens} onClick={handleClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="BLACK" count={leftovers.blacks} onClick={onClick} />
+        <TileSetComp color="BLACK" count={leftovers.blacks} onClick={handleClick} />
       </Grid>
     </Grid>
-  )
-}
-
-type TileProps = {
-  color: Color | null
-}
-
-function TileComp(props: TileProps) {
-  const color = props.color
-  return (
-    <Button
-      style={{ backgroundColor: colorToBgHex(color), color: colorToFgHex(color) }}
-      variant="contained"
-      disabled={color === null}
-    >
-      {tileToLetter(color)}
-    </Button>
   )
 }
 

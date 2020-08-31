@@ -40,7 +40,7 @@ class App extends React.Component<{}, AppState> {
     this.setup()
   }
 
-  onTileSelect(location: Location, color: Color) {
+  onTileSelect = (location: Location, color: Color) => {
     const game = this.state.game
     if (
       game !== null &&
@@ -54,7 +54,7 @@ class App extends React.Component<{}, AppState> {
     }
   }
 
-  onLineSelect(boardNumber: Player, moveTo: MoveTo) {
+  onLineSelect = (boardNumber: Player, moveTo: MoveTo) => {
     const game = this.state.game
     const selectedLocation = this.state.selectedLocation
     const selectedColor = this.state.selectedColor
@@ -151,6 +151,12 @@ class App extends React.Component<{}, AppState> {
             onTileSelect={this.onTileSelect}
             onLineSelect={this.onLineSelect}
           />
+          <p>
+            {this.state.selectedLocation !== null && this.state.selectedColor !== null
+              ? `You selected ${this.state.selectedColor} from ${this.state.selectedLocation}.` +
+                'Now select a pattern line on your board to place the tile(s) in.'
+              : ''}
+          </p>
         </div>
       )
     } else {
