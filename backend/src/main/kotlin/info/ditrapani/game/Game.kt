@@ -58,27 +58,32 @@ data class Game(
 ) {
     fun update(play: Play): Result<Unit> {
         // do factory offer
-        val (count, firstPlayer) = factory.update(play)
-        val playRecord = PlayRecord(count, firstPlayer, play)
-        val player = play.player
-        when (player) {
-            Player.P1 -> board1.update(playRecord)
-            Player.P2 -> board2.update(playRecord)
-            Player.P3 -> board3.update(playRecord)
-        }
-        lastPlay = playRecord
+        return factory.update(play)
+            .flatMap { (count, firstPlayer) ->
+                val playRecord = PlayRecord(count, firstPlayer, play)
+                val player = play.player
+                when (player) {
+                    Player.P1 -> board1.update(playRecord)
+                    Player.P2 -> board2.update(playRecord)
+                    Player.P3 -> board3.update(playRecord)
+                }
+                    .map { playRecord }
+            }.flatMap { playRecord ->
+                lastPlay = playRecord
+                // set new currentPlayer
 
-        if (factory.isEmpty()) {
-            // do wall tilling and scoring
-            // needs to be implemented
+                if (factory.isEmpty()) {
+                    // do wall tilling and scoring
+                    // needs to be implemented
 
-            // check if end of game
-            // if not end of game
-            // Prepare the next round
-            // if end of game
-            // add bonus score and mark complete
-        }
-        return Success(Unit)
+                    // check if end of game
+                    // if not end of game
+                    // Prepare the next round
+                    // if end of game
+                    // add bonus score and mark complete
+                }
+                Success(Unit)
+            }
     }
 
     fun toJson(player: Player?): JsonObject =

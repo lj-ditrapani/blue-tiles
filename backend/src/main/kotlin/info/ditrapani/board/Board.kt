@@ -1,5 +1,7 @@
 package info.ditrapani.board
 
+import info.ditrapani.Result
+import info.ditrapani.Success
 import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
 import info.ditrapani.model.MoveToFloor
@@ -21,7 +23,7 @@ data class Board(
     var nextFirstPlayer: Maybe,
     val floor: MutableList<Color>
 ) {
-    fun update(playRecord: PlayRecord) {
+    fun update(playRecord: PlayRecord): Result<Unit> {
         val tileCount = playRecord.tileCount
         val play = playRecord.play
         val color = play.color
@@ -39,6 +41,7 @@ data class Board(
                 updateFloor(color, tileCount)
         }
         nextFirstPlayer = playRecord.firstPlayer
+        return Success(Unit)
     }
 
     private fun updateLine(row: PatternLine?, color: Color, tileCount: Int, max: Int) {

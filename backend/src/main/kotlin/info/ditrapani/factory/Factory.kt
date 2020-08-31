@@ -1,5 +1,8 @@
 package info.ditrapani.factory
 
+import info.ditrapani.Failure
+import info.ditrapani.Result
+import info.ditrapani.Success
 import info.ditrapani.game.Supply
 import info.ditrapani.game.Trash
 import info.ditrapani.model.DisplayLocation
@@ -19,23 +22,28 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         leftovers.nextFirstPlayer = Maybe.PRESENT
     }
 
-    fun update(play: Play): FactoryUpdate {
+    fun update(play: Play): Result<FactoryUpdate> {
         val location = play.location
         return when (location) {
-            is DisplayLocation ->
-                FactoryUpdate(
-                    displays[location.number - 1].take(play.color),
-                    Maybe.MISSING
-                )
-            LeftoversLocation -> {
-                val firstPlayer = leftovers.nextFirstPlayer
-                if (firstPlayer == Maybe.PRESENT) {
-                    leftovers.nextFirstPlayer = Maybe.MISSING
+            is DisplayLocation -> {
+                val count = displays[location.number - 1].take(play.color)
+                if (count > 0) {
+                    Success(FactoryUpdate(count, Maybe.MISSING))
+                } else {
+                    Failure
                 }
-                FactoryUpdate(
-                    leftovers.take(play.color),
-                    firstPlayer
-                )
+            }
+            LeftoversLocation -> {
+                val count = leftovers.take(play.color)
+                if (count > 0) {
+                    val firstPlayer = leftovers.nextFirstPlayer
+                    if (firstPlayer == Maybe.PRESENT) {
+                        leftovers.nextFirstPlayer = Maybe.MISSING
+                    }
+                    Success(FactoryUpdate(count, firstPlayer))
+                } else {
+                    Failure
+                }
             }
         }
     }
