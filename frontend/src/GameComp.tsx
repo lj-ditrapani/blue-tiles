@@ -12,7 +12,7 @@ type GameProps = {
 export function GameComp(props: GameProps) {
   const game: Game | null = props.game
   if (game === null) {
-    return <p>No game state yet</p>
+    return <p></p>
   } else {
     return (
       <div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Color, Display, Factory, Leftovers } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
-import { colorToBgHex, colorToFgHex } from './color'
+import { colorToBgHex, colorToFgHex, tileToLetter } from './color'
 
 type FactoryProps = {
   factory: Factory
@@ -160,20 +160,3 @@ const colorCountToBgHex = (color: Color, count: number): string =>
 
 const colorCountToFgHex = (color: Color, count: number): string =>
   count === 0 ? '#000000' : colorToFgHex(color)
-
-function tileToLetter(color: Color | null): string {
-  switch (color) {
-    case null:
-      return 'E'
-    case 'WHITE':
-      return 'W'
-    case 'RED':
-      return 'R'
-    case 'BLUE':
-      return 'B'
-    case 'GREEN':
-      return 'G'
-    case 'BLACK':
-      return 'K'
-  }
-}

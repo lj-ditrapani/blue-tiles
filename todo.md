@@ -1,3 +1,6 @@
+- onTileSelect(location, color)
+- onLineSelect(moveTo)
+- need moveInProgress
 - create frontend skeleton
     - Loop call status -> shows status payload
         - once your turn, stop; update UI for player's turn

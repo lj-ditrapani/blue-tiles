@@ -31,7 +31,6 @@ class App extends React.Component<{}, AppState> {
   async setup() {
     await this.registerUser()
     await this.waitForReady()
-    await this.gameLoop()
   }
 
   async registerUser() {
@@ -56,6 +55,7 @@ class App extends React.Component<{}, AppState> {
         ready: true,
         playerCount: body.count,
       })
+      this.gameLoop()
     } else {
       this.setState({ playerCount: body.count })
       setTimeout(() => this.waitForReady(), 500)

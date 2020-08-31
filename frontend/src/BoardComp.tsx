@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Board, Player, PatternLine, WallLine, Maybe } from './models'
 import Grid from '@material-ui/core/Grid'
-import { colorToBgHex, colorToFgHex } from './color'
+import { colorToBgHex, colorToFgHex, tileToLetter } from './color'
 
 type BoardProps = {
   board: Board
@@ -110,7 +110,7 @@ function wallSpan(maybe: Maybe, hexColor: string) {
         border: `3px solid ${hexColor}`,
       }}
     >
-      {maybe === 'MISSING' ? 'Empty' : ':)'}
+      {maybe === 'MISSING' ? 'E' : ':)'}
     </div>
   )
 }
@@ -120,7 +120,7 @@ function generatePatternLineContent(
   patternLineSize: number
 ) {
   if (patternLine === null) {
-    return <div style={{ backgroundColor: '#a5a5a5' }}> 0/{patternLineSize} Empty </div>
+    return <div style={{ backgroundColor: '#a5a5a5' }}> 0/{patternLineSize} E </div>
   } else {
     return (
       <div
@@ -129,7 +129,7 @@ function generatePatternLineContent(
           color: colorToFgHex(patternLine.color),
         }}
       >
-        {patternLine.count}/{patternLineSize} {patternLine.color.toLowerCase()}
+        {patternLine.count}/{patternLineSize} {tileToLetter(patternLine.color)}
       </div>
     )
   }
