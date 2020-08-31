@@ -1,5 +1,6 @@
 package info.ditrapani.game
 
+import info.ditrapani.Failure
 import info.ditrapani.Result
 import info.ditrapani.Success
 import info.ditrapani.board.Board
@@ -57,33 +58,42 @@ data class Game(
     var winner: Player?
 ) {
     fun update(play: Play): Result<Unit> {
-        // do factory offer
-        return factory.update(play)
-            .flatMap { (count, firstPlayer) ->
-                val playRecord = PlayRecord(count, firstPlayer, play)
-                val player = play.player
-                when (player) {
-                    Player.P1 -> board1.update(playRecord)
-                    Player.P2 -> board2.update(playRecord)
-                    Player.P3 -> board3.update(playRecord)
-                }
-                    .map { playRecord }
-            }.flatMap { playRecord ->
-                lastPlay = playRecord
-                currentPlayer = currentPlayer.next()
+        val validFactoryPlay = factory.isPlayValid(play)
+        val validBoardPlay = when (play.player) {
+            Player.P1 -> board1.isPlayValid(play)
+            Player.P2 -> board2.isPlayValid(play)
+            Player.P3 -> board3.isPlayValid(play)
+        }
+        return if (!(validFactoryPlay && validBoardPlay)) {
+            Failure
+        } else {
+            factory.update(play)
+                .flatMap { (count, firstPlayer) ->
+                    val playRecord = PlayRecord(count, firstPlayer, play)
+                    val player = play.player
+                    when (player) {
+                        Player.P1 -> board1.update(playRecord)
+                        Player.P2 -> board2.update(playRecord)
+                        Player.P3 -> board3.update(playRecord)
+                    }
+                        .map { playRecord }
+                }.flatMap { playRecord ->
+                    lastPlay = playRecord
+                    currentPlayer = currentPlayer.next()
 
-                if (factory.isEmpty()) {
-                    // do wall tilling and scoring
-                    // needs to be implemented
+                    if (factory.isEmpty()) {
+                        // do wall tilling and scoring
+                        // needs to be implemented
 
-                    // check if end of game
-                    // if not end of game
-                    // Prepare the next round
-                    // if end of game
-                    // add bonus score and mark complete
+                        // check if end of game
+                        // if not end of game
+                        // Prepare the next round
+                        // if end of game
+                        // add bonus score and mark complete
+                    }
+                    Success(Unit)
                 }
-                Success(Unit)
-            }
+        }
     }
 
     fun toJson(player: Player?): JsonObject =

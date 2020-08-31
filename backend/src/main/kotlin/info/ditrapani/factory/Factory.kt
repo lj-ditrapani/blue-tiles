@@ -22,6 +22,14 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         leftovers.nextFirstPlayer = Maybe.PRESENT
     }
 
+    fun isPlayValid(play: Play): Boolean =
+        when (play.location) {
+            is DisplayLocation ->
+                displays[play.location.number - 1].isColorValid(play.color)
+            LeftoversLocation ->
+                leftovers.isColorValid(play.color)
+        }
+
     fun update(play: Play): Result<FactoryUpdate> {
         val location = play.location
         return when (location) {

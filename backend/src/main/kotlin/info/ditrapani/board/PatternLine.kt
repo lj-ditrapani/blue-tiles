@@ -44,3 +44,10 @@ fun PatternLine?.add(
         Success(floorTileCount)
     }
 }
+
+fun PatternLine?.isValidColor(newColor: Color, max: Int): Boolean =
+    if (this == null) {
+        true
+    } else {
+        count < max && color == newColor
+    }

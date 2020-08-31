@@ -27,6 +27,9 @@ data class Display(
         slot4 = supply.getTile(trash)
     }
 
+    fun isColorValid(color: Color): Boolean =
+        listOf(slot1, slot2, slot3, slot4).any { it == color }
+
     fun take(color: Color): Int {
         var count = 0
         if (slot1 != null && slot1 == color) {

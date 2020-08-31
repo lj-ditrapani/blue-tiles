@@ -22,6 +22,15 @@ data class Leftovers(
             greens == 0 &&
             blacks == 0
 
+    fun isColorValid(color: Color): Boolean =
+        when (color) {
+            Color.WHITE -> whites > 0
+            Color.RED -> reds > 0
+            Color.BLUE -> blues > 0
+            Color.GREEN -> greens > 0
+            Color.BLACK -> blacks > 0
+        }
+
     fun take(color: Color): Int =
         when (color) {
             Color.WHITE -> {

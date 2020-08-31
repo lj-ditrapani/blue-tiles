@@ -6,6 +6,7 @@ import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
 import info.ditrapani.model.MoveToFloor
 import info.ditrapani.model.MoveToRow
+import info.ditrapani.model.Play
 import info.ditrapani.model.PlayRecord
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
@@ -23,6 +24,20 @@ data class Board(
     var nextFirstPlayer: Maybe,
     val floor: MutableList<Color>
 ) {
+    fun isPlayValid(play: Play): Boolean =
+        when (play.moveTo) {
+            is MoveToRow ->
+                when (play.moveTo.row) {
+                    1 -> line1.isValidColor(play.color, 1)
+                    2 -> line2.isValidColor(play.color, 2)
+                    3 -> line3.isValidColor(play.color, 3)
+                    4 -> line4.isValidColor(play.color, 4)
+                    else -> line5.isValidColor(play.color, 5)
+                }
+            MoveToFloor ->
+                true
+        }
+
     fun update(playRecord: PlayRecord): Result<Unit> {
         val tileCount = playRecord.tileCount
         val play = playRecord.play
