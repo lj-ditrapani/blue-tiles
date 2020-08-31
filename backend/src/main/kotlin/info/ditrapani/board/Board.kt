@@ -31,11 +31,11 @@ data class Board(
         when (moveTo) {
             is MoveToRow ->
                 when (moveTo.row) {
-                    1 -> updateLine(line1, color, tileCount, 1)
-                    2 -> updateLine(line2, color, tileCount, 2)
-                    3 -> updateLine(line3, color, tileCount, 3)
-                    4 -> updateLine(line4, color, tileCount, 4)
-                    5 -> updateLine(line5, color, tileCount, 5)
+                    1 -> updateLine(line1, color, tileCount, 1, { line -> line1 = line })
+                    2 -> updateLine(line2, color, tileCount, 2, { line -> line2 = line })
+                    3 -> updateLine(line3, color, tileCount, 3, { line -> line3 = line })
+                    4 -> updateLine(line4, color, tileCount, 4, { line -> line4 = line })
+                    5 -> updateLine(line5, color, tileCount, 5, { line -> line5 = line })
                 }
             MoveToFloor ->
                 updateFloor(color, tileCount)
@@ -48,9 +48,10 @@ data class Board(
         line: PatternLine?,
         color: Color,
         tileCount: Int,
-        max: Int
+        max: Int,
+        saveLine: (PatternLine) -> Unit
     ): Result<Unit> =
-        line.add(color, tileCount, max).map { floorTileCount ->
+        line.add(color, tileCount, max, saveLine).map { floorTileCount ->
             0.until(floorTileCount).forEach {
                 floor.add(color)
             }
@@ -81,7 +82,7 @@ data class Board(
         }
 }
 
-val newBoard = Board(
+fun newBoard(): Board = Board(
     0,
     null,
     null,

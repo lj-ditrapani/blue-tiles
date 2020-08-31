@@ -96,8 +96,8 @@ data class Game(
                 "trashCount" to trash.size(),
                 "factory" to factory.toJson(),
                 "board1" to board1.toJson(),
-                "board2" to board1.toJson(),
-                "board3" to board1.toJson(),
+                "board2" to board2.toJson(),
+                "board3" to board3.toJson(),
                 "lastPlay" to lastPlay.toJson(),
                 "winner" to winner?.name
 
@@ -130,9 +130,9 @@ fun newGame(): Game {
         supply,
         trash,
         factory,
-        newBoard,
-        newBoard,
-        newBoard,
+        newBoard(),
+        newBoard(),
+        newBoard(),
         null,
         null
     )

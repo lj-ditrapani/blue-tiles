@@ -24,9 +24,16 @@ data class PatternLine(var color: Color, var count: Int) {
         json { obj("color" to color.toString(), "count" to count) }
 }
 
-fun PatternLine?.add(newColor: Color, newCount: Int, max: Int): Result<Int> {
+fun PatternLine?.add(
+    newColor: Color,
+    newCount: Int,
+    max: Int,
+    saveLine: (PatternLine) -> Unit
+): Result<Int> {
     val patternLine = if (this == null) {
-        PatternLine(newColor, 0)
+        val temp = PatternLine(newColor, 0)
+        saveLine(temp)
+        temp
     } else {
         this
     }
