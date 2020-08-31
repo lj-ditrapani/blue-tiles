@@ -2,6 +2,9 @@ import React from 'react'
 import { Color, Display, Factory, Leftovers } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
+import { red } from '@material-ui/core/colors'
+// import { red, green, blue } from '@material-ui/core/colors'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 type FactoryProps = {
   factory: Factory
@@ -107,9 +110,17 @@ type TileProps = {
   color: Color | null
 }
 
+const redTheme = createMuiTheme({ palette: { primary: red } })
+// const blueTheme = createMuiTheme({ palette: { primary: blue } })
+// const greenTheme = createMuiTheme({ palette: { primary: green } })
+
 function TileComp(props: TileProps)  {
   const color = props.color
-  return <Button variant="contained" disabled={color === null}>{tileToLetter(color)}</Button>
+  return (
+    <ThemeProvider theme={redTheme}>
+      <Button variant="contained" disabled={color === null}>{tileToLetter(color)}</Button>
+    </ThemeProvider>
+  )
 }
 
 type TileSetProps = {
