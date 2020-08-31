@@ -2,9 +2,6 @@ import React from 'react'
 import { Color, Display, Factory, Leftovers } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
-import { red } from '@material-ui/core/colors'
-// import { red, green, blue } from '@material-ui/core/colors'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 type FactoryProps = {
   factory: Factory
@@ -14,40 +11,39 @@ export function FactoryComp(props: FactoryProps) {
   const factory: Factory = props.factory
   return (
     <div>
-    <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            Display 1: <DisplayComp display={factory.displays[0]} />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              Display 1: <DisplayComp display={factory.displays[0]} />
+            </Grid>
+            <Grid item xs={3}>
+              Display 2: <DisplayComp display={factory.displays[1]} />
+            </Grid>
+            <Grid item xs={3}>
+              Display 3: <DisplayComp display={factory.displays[2]} />
+            </Grid>
+            <Grid item xs={3}>
+              Display 4: <DisplayComp display={factory.displays[3]} />
+            </Grid>
           </Grid>
-          <Grid item xs={3}>
-            Display 2: <DisplayComp display={factory.displays[1]} />
-          </Grid>
-          <Grid item xs={3}>
-            Display 3: <DisplayComp display={factory.displays[2]} />
-          </Grid>
-          <Grid item xs={3}>
-            Display 4: <DisplayComp display={factory.displays[3]} />
+        </Grid>
+        <Grid item xs={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              Display 5: <DisplayComp display={factory.displays[4]} />
+            </Grid>
+            <Grid item xs={3}>
+              Display 6: <DisplayComp display={factory.displays[5]} />
+            </Grid>
+            <Grid item xs={3}>
+              Display 7: <DisplayComp display={factory.displays[6]} />
+            </Grid>
+            <Grid item xs={3}></Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            Display 5: <DisplayComp display={factory.displays[4]} />
-          </Grid>
-          <Grid item xs={3}>
-            Display 6: <DisplayComp display={factory.displays[5]} />
-          </Grid>
-          <Grid item xs={3}>
-            Display 7: <DisplayComp display={factory.displays[6]} />
-          </Grid>
-          <Grid item xs={3}>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-    <LeftoversComp leftovers={factory.leftovers} />
+      <LeftoversComp leftovers={factory.leftovers} />
     </div>
   )
 }
@@ -61,16 +57,16 @@ function DisplayComp(props: DisplayProps) {
   return (
     <Grid container spacing={0}>
       <Grid item xs={6}>
-        <TileComp color={display.slot1}/>
+        <TileComp color={display.slot1} />
       </Grid>
       <Grid item xs={6}>
-        <TileComp color={display.slot2}/>
+        <TileComp color={display.slot2} />
       </Grid>
       <Grid item xs={6}>
-        <TileComp color={display.slot3}/>
+        <TileComp color={display.slot3} />
       </Grid>
       <Grid item xs={6}>
-        <TileComp color={display.slot4}/>
+        <TileComp color={display.slot4} />
       </Grid>
     </Grid>
   )
@@ -88,19 +84,19 @@ function LeftoversComp(props: LeftoverProps) {
         {leftovers.nextFirstPlayer === 'PRESENT' ? 'NextFirstPlayer' : ''}
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color='WHITE' count={leftovers.whites} />
+        <TileSetComp color="WHITE" count={leftovers.whites} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color='RED' count={leftovers.reds} />
+        <TileSetComp color="RED" count={leftovers.reds} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color='BLUE' count={leftovers.blues} />
+        <TileSetComp color="BLUE" count={leftovers.blues} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color='GREEN' count={leftovers.greens} />
+        <TileSetComp color="GREEN" count={leftovers.greens} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color='BLACK' count={leftovers.blacks} />
+        <TileSetComp color="BLACK" count={leftovers.blacks} />
       </Grid>
     </Grid>
   )
@@ -110,32 +106,56 @@ type TileProps = {
   color: Color | null
 }
 
-const redTheme = createMuiTheme({ palette: { primary: red } })
-// const blueTheme = createMuiTheme({ palette: { primary: blue } })
-// const greenTheme = createMuiTheme({ palette: { primary: green } })
-
-function TileComp(props: TileProps)  {
+function TileComp(props: TileProps) {
   const color = props.color
   return (
-    <ThemeProvider theme={redTheme}>
-      <Button variant="contained" disabled={color === null}>{tileToLetter(color)}</Button>
-    </ThemeProvider>
+    <Button
+      style={{ backgroundColor: colorToBgHex(color), color: colorToFgHex(color) }}
+      variant="contained"
+      disabled={color === null}
+    >
+      {tileToLetter(color)}
+    </Button>
   )
 }
+
+function colorToBgHex(color: Color | null): string {
+  switch (color) {
+    case null:
+      return '#404040'
+    case 'WHITE':
+      return '#ffffff'
+    case 'RED':
+      return '#ff4040'
+    case 'BLUE':
+      return '#4040ff'
+    case 'GREEN':
+      return '#80E080'
+    case 'BLACK':
+      return '#000000'
+  }
+}
+
+const colorToFgHex = (color: Color | null): string =>
+  color === 'BLACK' ? '#ffffff' : '#000000'
 
 type TileSetProps = {
   color: Color
   count: number
 }
 
-function TileSetComp(props: TileSetProps)  {
+function TileSetComp(props: TileSetProps) {
   const color = props.color
   const count = props.count
-  return <Button variant="contained" disabled={count === 0}>{count} {color.toLowerCase() + 's'}</Button>
+  return (
+    <Button variant="contained" disabled={count === 0}>
+      {count} {color.toLowerCase() + 's'}
+    </Button>
+  )
 }
 
 function tileToLetter(color: Color | null): string {
-  switch(color) {
+  switch (color) {
     case null:
       return 'E'
     case 'WHITE':

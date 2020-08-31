@@ -96,11 +96,9 @@ class App extends React.Component<{}, AppState> {
         <div className="App">
           <CssBaseline />
           <p>
-            {
-              this.state.ready ?
-              "" :
-              `Waiting for ${3 - this.state.playerCount} players to join. `
-            }
+            {this.state.ready
+              ? ''
+              : `Waiting for ${3 - this.state.playerCount} players to join. `}
             You are player {this.state.player}
           </p>
           <GameComp game={this.state.game} />
