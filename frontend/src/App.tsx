@@ -66,7 +66,10 @@ class App extends React.Component<{}, AppState> {
       selectedLocation !== null &&
       selectedColor !== null
     ) {
-      fetch(`/play/${this.state.selectedLocation}/${this.state.selectedColor}/${moveTo}`)
+      fetch(
+        `/play/${this.state.selectedLocation}/${this.state.selectedColor}/${moveTo}`,
+        { method: 'POST' }
+      )
     }
   }
 

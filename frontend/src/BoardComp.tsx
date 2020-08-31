@@ -32,29 +32,36 @@ export function BoardComp(props: BoardProps) {
           patternLine={board.line1}
           wallLine={board.wall.line1}
           patternLineSize={1}
+          onClick={() => props.onLineSelect(props.player, 1)}
         />
         <BoardLine
           patternLine={board.line2}
           wallLine={board.wall.line2}
           patternLineSize={2}
+          onClick={() => props.onLineSelect(props.player, 2)}
         />
         <BoardLine
           patternLine={board.line3}
           wallLine={board.wall.line3}
           patternLineSize={3}
+          onClick={() => props.onLineSelect(props.player, 3)}
         />
         <BoardLine
           patternLine={board.line4}
           wallLine={board.wall.line4}
           patternLineSize={4}
+          onClick={() => props.onLineSelect(props.player, 4)}
         />
         <BoardLine
           patternLine={board.line5}
           wallLine={board.wall.line5}
           patternLineSize={5}
+          onClick={() => props.onLineSelect(props.player, 5)}
         />
         <Grid item xs={12}>
-          Floor: {board.floor.join(' ')}
+          <div onClick={() => props.onLineSelect(props.player, 'floor')}>
+            Floor: {board.floor.join(' ')}
+          </div>
         </Grid>
       </Grid>
     </div>
@@ -65,6 +72,7 @@ type BoardLineProps = {
   patternLine: PatternLine | null
   wallLine: WallLine
   patternLineSize: number
+  onClick: () => void
 }
 
 const baseColors = ['#ffffff', '#ff4040', '#4040ff', '#80E080', '#000000']
@@ -77,7 +85,7 @@ export function BoardLine(props: BoardLineProps) {
   colors.push.apply(colors, colors.splice(0, 6 - patternLineSize))
   return (
     <Grid item xs={12}>
-      <div>
+      <div onClick={props.onClick}>
         <Grid container spacing={0}>
           <Grid item xs={2}>
             {generatePatternLineContent(patternLine, patternLineSize)}
