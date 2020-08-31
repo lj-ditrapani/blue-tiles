@@ -8,6 +8,15 @@ enum class Color {
     BLACK
 }
 
+fun parseColor(str: String?): Color? =
+    str?.let { notNull ->
+        try {
+            Color.valueOf(notNull)
+        } catch (error: IllegalArgumentException) {
+            null
+        }
+    }
+
 enum class Maybe {
     PRESENT,
     MISSING

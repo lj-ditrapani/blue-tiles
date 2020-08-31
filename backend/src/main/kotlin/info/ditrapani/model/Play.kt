@@ -11,8 +11,16 @@ data class Play(
     val moveTo: MoveTo
 )
 
-fun parsePlay(player: Player, location: String, color: String, moveTo: String): Play =
-    Play(player, parseLocation(location), Color.valueOf(color), parseMoveTo(moveTo))
+fun parsePlay(player: Player, location: String?, color: String?, moveTo: String?): Play? {
+    val newLocation = parseLocation(location)
+    val newColor = parseColor(color)
+    val newMoveTo = parseMoveTo(moveTo)
+    return if (newLocation != null && newColor != null && newMoveTo != null) {
+        Play(player, newLocation, newColor, newMoveTo)
+    } else {
+        null
+    }
+}
 
 sealed class Location
 object LeftoversLocation : Location() {
@@ -22,11 +30,24 @@ data class DisplayLocation(val number: Int) : Location() {
     override fun toString(): String = "Display # $number"
 }
 
-fun parseLocation(str: String): Location =
-    if (str == "leftovers") {
-        LeftoversLocation
-    } else {
-        DisplayLocation(str.toInt())
+fun parseLocation(str: String?): Location? =
+    str?.let { notNull ->
+        if (notNull == "leftovers") {
+            LeftoversLocation
+        } else {
+            val maybeNumber = try {
+                notNull.toInt()
+            } catch (error: NumberFormatException) {
+                null
+            }
+            maybeNumber?.let { number ->
+                if (number >= 1 && number <= 7) {
+                    DisplayLocation(number)
+                } else {
+                    null
+                }
+            }
+        }
     }
 
 data class PlayRecord(val tileCount: Int, val firstPlayer: Maybe, val play: Play) {
@@ -54,9 +75,22 @@ data class MoveToRow(val row: Int) : MoveTo() {
     override fun toString() = "line # $row"
 }
 
-fun parseMoveTo(str: String): MoveTo =
-    if (str == "floor") {
-        MoveToFloor
-    } else {
-        MoveToRow(str.toInt())
+fun parseMoveTo(str: String?): MoveTo? =
+    str?.let { notNull ->
+        if (notNull == "floor") {
+            MoveToFloor
+        } else {
+            val maybeNumber = try {
+                notNull.toInt()
+            } catch (error: NumberFormatException) {
+                null
+            }
+            maybeNumber?.let { number ->
+                if (number >= 1 && number <= 5) {
+                    MoveToRow(number)
+                } else {
+                    null
+                }
+            }
+        }
     }

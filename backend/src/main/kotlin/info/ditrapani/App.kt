@@ -80,23 +80,35 @@ class Server(
         }
         router.post("/play/:location/:color/:moveTo").handler { routingContext ->
             val session = routingContext.session()
-            val player = session.get<Player?>("player")
+            val player: Player? = session.get<Player?>("player")
             logger.info("Player: $player")
             if (player != game.currentPlayer) {
-                val response = routingContext.response()
-                response.setStatusCode(400)
-                response.sendJson(json { obj("error" to "Not your turn!") })
+                routingContext.response()
+                    .setStatusCode(400)
+                    .sendJson(json { obj("error" to "Not your turn!") })
             } else {
                 val request = routingContext.request()
-                val location = request.getParam("location")
-                val color = request.getParam("color")
-                val moveTo = request.getParam("moveTo")
+                val location: String? = request.getParam("location")
+                val color: String? = request.getParam("color")
+                val moveTo: String? = request.getParam("moveTo")
                 logger.info("location: $location color: $color moveTo: $moveTo")
                 val play = parsePlay(player, location, color, moveTo)
-                game.update(play)
-                routingContext
-                    .response()
-                    .sendJson(json { obj("result" to "OK") })
+                val result = if (play == null) {
+                    Failure
+                } else {
+                    game.update(play)
+                }
+                when (result) {
+                    Success ->
+                        routingContext
+                            .response()
+                            .sendJson(json { obj("result" to result.toString()) })
+                    Failure ->
+                        routingContext
+                            .response()
+                            .setStatusCode(400)
+                            .sendJson(json { obj("error" to "Illegal move") })
+                }
             }
         }
         val server = vertx.createHttpServer().requestHandler(router)

@@ -1,12 +1,7 @@
-- create frontend skeleton
-    - Loop call status -> shows status payload
-        - once your turn, stop; update UI for player's turn
-    - Collect fields: location, color, row
-    - Button play -> calls play -> shows result -> return to status loop
-- Adding tiles to Board floor:
-    - if more than floor slots, put remainder in trash
-- post register: on count == 3; -> ready to play
-- dockerize
+- implement server-side play
 - make game anti-cheat
     - update(play) function should return success/error
-        - error if play is an illegla move
+        - error if play is an illegal move
+- Adding tiles to Board floor:
+    - if more than floor slots, put remainder in trash
+- dockerize
