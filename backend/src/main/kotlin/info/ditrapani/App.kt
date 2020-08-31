@@ -94,16 +94,16 @@ class Server(
                 logger.info("location: $location color: $color moveTo: $moveTo")
                 val play = parsePlay(player, location, color, moveTo)
                 val result = if (play == null) {
-                    Failure
+                    Outcome.FAILURE
                 } else {
                     game.update(play)
                 }
                 when (result) {
-                    is Success ->
+                    Outcome.SUCCESS ->
                         routingContext
                             .response()
                             .sendJson(json { obj("result" to result.toString()) })
-                    Failure ->
+                    Outcome.FAILURE ->
                         routingContext
                             .response()
                             .setStatusCode(400)

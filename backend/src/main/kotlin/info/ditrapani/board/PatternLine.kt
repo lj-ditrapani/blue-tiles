@@ -1,8 +1,5 @@
 package info.ditrapani.board
 
-import info.ditrapani.Failure
-import info.ditrapani.Result
-import info.ditrapani.Success
 import info.ditrapani.model.Color
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.json
@@ -29,7 +26,7 @@ fun PatternLine?.add(
     newCount: Int,
     max: Int,
     saveLine: (PatternLine) -> Unit
-): Result<Int> {
+): Int {
     val patternLine = if (this == null) {
         val temp = PatternLine(newColor, 0)
         saveLine(temp)
@@ -37,12 +34,7 @@ fun PatternLine?.add(
     } else {
         this
     }
-    return if (newColor != patternLine.color) {
-        Failure
-    } else {
-        val floorTileCount = patternLine.add(newCount, max)
-        Success(floorTileCount)
-    }
+    return patternLine.add(newCount, max)
 }
 
 fun PatternLine?.isValidColor(newColor: Color, max: Int): Boolean =

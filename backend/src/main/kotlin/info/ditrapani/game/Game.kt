@@ -1,8 +1,6 @@
 package info.ditrapani.game
 
-import info.ditrapani.Failure
-import info.ditrapani.Result
-import info.ditrapani.Success
+import info.ditrapani.Outcome
 import info.ditrapani.board.Board
 import info.ditrapani.board.newBoard
 import info.ditrapani.factory.Factory
@@ -57,7 +55,7 @@ data class Game(
     var lastPlay: PlayRecord?,
     var winner: Player?
 ) {
-    fun update(play: Play): Result<Unit> {
+    fun update(play: Play): Outcome {
         val validFactoryPlay = factory.isPlayValid(play)
         val validBoardPlay = when (play.player) {
             Player.P1 -> board1.isPlayValid(play)
@@ -65,34 +63,30 @@ data class Game(
             Player.P3 -> board3.isPlayValid(play)
         }
         return if (!(validFactoryPlay && validBoardPlay)) {
-            Failure
+            Outcome.FAILURE
         } else {
-            factory.update(play)
-                .flatMap { (count, firstPlayer) ->
-                    val playRecord = PlayRecord(count, firstPlayer, play)
-                    val player = play.player
-                    when (player) {
-                        Player.P1 -> board1.update(playRecord)
-                        Player.P2 -> board2.update(playRecord)
-                        Player.P3 -> board3.update(playRecord)
-                    }
-                        .map { playRecord }
-                }.flatMap { playRecord ->
-                    lastPlay = playRecord
-                    currentPlayer = currentPlayer.next()
+            val (count, firstPlayer) = factory.update(play)
+            val playRecord = PlayRecord(count, firstPlayer, play)
+            val player = play.player
+            when (player) {
+                Player.P1 -> board1.update(playRecord)
+                Player.P2 -> board2.update(playRecord)
+                Player.P3 -> board3.update(playRecord)
+            }
+            lastPlay = playRecord
+            currentPlayer = currentPlayer.next()
 
-                    if (factory.isEmpty()) {
-                        // do wall tilling and scoring
-                        // needs to be implemented
+            if (factory.isEmpty()) {
+                // do wall tilling and scoring
+                // needs to be implemented
 
-                        // check if end of game
-                        // if not end of game
-                        // Prepare the next round
-                        // if end of game
-                        // add bonus score and mark complete
-                    }
-                    Success(Unit)
-                }
+                // check if end of game
+                // if not end of game
+                // Prepare the next round
+                // if end of game
+                // add bonus score and mark complete
+            }
+            Outcome.SUCCESS
         }
     }
 
