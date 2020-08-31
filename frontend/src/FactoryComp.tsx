@@ -2,6 +2,7 @@ import React from 'react'
 import { Color, Display, Factory, Leftovers } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
+import { colorToBgHex, colorToFgHex } from './color'
 
 type FactoryProps = {
   factory: Factory
@@ -131,26 +132,6 @@ function TileComp(props: TileProps) {
     </Button>
   )
 }
-
-function colorToBgHex(color: Color | null): string {
-  switch (color) {
-    case null:
-      return '#a5a5a5'
-    case 'WHITE':
-      return '#ffffff'
-    case 'RED':
-      return '#ff4040'
-    case 'BLUE':
-      return '#4040ff'
-    case 'GREEN':
-      return '#80E080'
-    case 'BLACK':
-      return '#000000'
-  }
-}
-
-const colorToFgHex = (color: Color | null): string =>
-  color === 'BLACK' ? '#ffffff' : '#000000'
 
 type TileSetProps = {
   color: Color
