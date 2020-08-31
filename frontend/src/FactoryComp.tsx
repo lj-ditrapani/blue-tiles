@@ -1,11 +1,12 @@
 import React from 'react'
-import { Color, Display, Factory, Leftovers } from './models'
+import { Color, Display, Factory, Leftovers, Location } from './models'
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import { colorToBgHex, colorToFgHex, tileToLetter } from './color'
 
 type FactoryProps = {
   factory: Factory
+  onTileSelect: (location: Location, color: Color) => void
 }
 
 export function FactoryComp(props: FactoryProps) {
@@ -57,7 +58,7 @@ export function FactoryComp(props: FactoryProps) {
       <Grid item xs={12}>
         Leftovers:
       </Grid>
-      <LeftoversComp leftovers={factory.leftovers} />
+      <LeftoversComp leftovers={factory.leftovers} onClick={props.onTileSelect} />
     </div>
   )
 }
@@ -88,29 +89,31 @@ function DisplayComp(props: DisplayProps) {
 
 type LeftoverProps = {
   leftovers: Leftovers
+  onClick: (location: Location, color: Color) => void
 }
 
 function LeftoversComp(props: LeftoverProps) {
   const leftovers = props.leftovers
+  const onClick = (color: Color): void => props.onClick('leftovers', color)
   return (
     <Grid container spacing={2}>
       <Grid item xs={2}>
         {leftovers.nextFirstPlayer === 'PRESENT' ? 'NextFirstPlayer' : ''}
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="WHITE" count={leftovers.whites} />
+        <TileSetComp color="WHITE" count={leftovers.whites} onClick={onClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="RED" count={leftovers.reds} />
+        <TileSetComp color="RED" count={leftovers.reds} onClick={onClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="BLUE" count={leftovers.blues} />
+        <TileSetComp color="BLUE" count={leftovers.blues} onClick={onClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="GREEN" count={leftovers.greens} />
+        <TileSetComp color="GREEN" count={leftovers.greens} onClick={onClick} />
       </Grid>
       <Grid item xs={2}>
-        <TileSetComp color="BLACK" count={leftovers.blacks} />
+        <TileSetComp color="BLACK" count={leftovers.blacks} onClick={onClick} />
       </Grid>
     </Grid>
   )
@@ -136,6 +139,7 @@ function TileComp(props: TileProps) {
 type TileSetProps = {
   color: Color
   count: number
+  onClick: (color: Color) => void
 }
 
 function TileSetComp(props: TileSetProps) {
@@ -149,6 +153,11 @@ function TileSetComp(props: TileSetProps) {
       }}
       variant="contained"
       disabled={count === 0}
+      onClick={() => {
+        if (count > 0) {
+          props.onClick(color)
+        }
+      }}
     >
       {count} {color.toLowerCase() + 's'}
     </Button>

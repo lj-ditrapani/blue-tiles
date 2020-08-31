@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { Board, Player, PatternLine, WallLine, Maybe } from './models'
+import { Board, Player, PatternLine, WallLine, Maybe, MoveTo } from './models'
 import Grid from '@material-ui/core/Grid'
 import { colorToBgHex, colorToFgHex, tileToLetter } from './color'
 
 type BoardProps = {
   board: Board
   player: Player
+  onLineSelect: (boardNumber: Player, moveTo: MoveTo) => void
 }
 
 export function BoardComp(props: BoardProps) {

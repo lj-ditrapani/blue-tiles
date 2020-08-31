@@ -41,17 +41,33 @@ class App extends React.Component<{}, AppState> {
   }
 
   onTileSelect(location: Location, color: Color) {
-    // if requested player === currentPlayer
-    this.setState({
-      selectedLocation: location,
-      selectedColor: color,
-    })
+    const game = this.state.game
+    if (
+      game !== null &&
+      game.requestingPerson !== null &&
+      game.requestingPerson === game.currentPlayer
+    ) {
+      this.setState({
+        selectedLocation: location,
+        selectedColor: color,
+      })
+    }
   }
 
-  onLineSelect(moveTo: MoveTo) {
-    // if requested player === currentPlayer
-    // if selectedLocation && selectedColor are not null
-    fetch(`/play/${this.state.selectedLocation}/${this.state.selectedColor}/${moveTo}`)
+  onLineSelect(boardNumber: Player, moveTo: MoveTo) {
+    const game = this.state.game
+    const selectedLocation = this.state.selectedLocation
+    const selectedColor = this.state.selectedColor
+    if (
+      game !== null &&
+      game.requestingPerson !== null &&
+      game.requestingPerson === game.currentPlayer &&
+      game.requestingPerson === boardNumber &&
+      selectedLocation !== null &&
+      selectedColor !== null
+    ) {
+      fetch(`/play/${this.state.selectedLocation}/${this.state.selectedColor}/${moveTo}`)
+    }
   }
 
   async setup() {
@@ -130,7 +146,11 @@ class App extends React.Component<{}, AppState> {
                   3 - this.state.playerCount
                 } players to join.  You are player ${this.state.player}`}
           </p>
-          <GameComp game={this.state.game} />
+          <GameComp
+            game={this.state.game}
+            onTileSelect={this.onTileSelect}
+            onLineSelect={this.onLineSelect}
+          />
         </div>
       )
     } else {

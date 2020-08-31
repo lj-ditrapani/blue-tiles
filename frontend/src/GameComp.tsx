@@ -1,5 +1,5 @@
 import React from 'react'
-import { Game } from './models'
+import { Color, Game, Location, MoveTo, Player } from './models'
 import { FactoryComp } from './FactoryComp'
 import { BoardComp } from './BoardComp'
 import { PlayRecordComp } from './PlayRecordComp'
@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid'
 
 type GameProps = {
   game: Game | null
+  onTileSelect: (location: Location, color: Color) => void
+  onLineSelect: (boardNumber: Player, moveTo: MoveTo) => void
 }
 
 export function GameComp(props: GameProps) {
@@ -36,16 +38,28 @@ export function GameComp(props: GameProps) {
             winner: {game.winner === null ? 'None yet' : game.winner}
           </Grid>
         </Grid>
-        <FactoryComp factory={game.factory} />
+        <FactoryComp factory={game.factory} onTileSelect={props.onTileSelect} />
         <Grid container spacing={1}>
           <Grid item xs={4}>
-            <BoardComp board={game.board1} player="P1" />
+            <BoardComp
+              board={game.board1}
+              player="P1"
+              onLineSelect={props.onLineSelect}
+            />
           </Grid>
           <Grid item xs={4}>
-            <BoardComp board={game.board2} player="P2" />
+            <BoardComp
+              board={game.board2}
+              player="P2"
+              onLineSelect={props.onLineSelect}
+            />
           </Grid>
           <Grid item xs={4}>
-            <BoardComp board={game.board3} player="P3" />
+            <BoardComp
+              board={game.board3}
+              player="P3"
+              onLineSelect={props.onLineSelect}
+            />
           </Grid>
         </Grid>
         <PlayRecordComp play={game.lastPlay} />
