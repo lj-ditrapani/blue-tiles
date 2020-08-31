@@ -56,7 +56,7 @@ data class Game(
     var lastPlay: PlayRecord?,
     var winner: Player?
 ) {
-    fun update(play: Play): Result {
+    fun update(play: Play): Result<Unit> {
         // do factory offer
         val (count, firstPlayer) = factory.update(play)
         val playRecord = PlayRecord(count, firstPlayer, play)
@@ -78,7 +78,7 @@ data class Game(
             // if end of game
             // add bonus score and mark complete
         }
-        return Success
+        return Success(Unit)
     }
 
     fun toJson(player: Player?): JsonObject =

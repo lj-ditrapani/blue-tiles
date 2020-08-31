@@ -99,7 +99,7 @@ class Server(
                     game.update(play)
                 }
                 when (result) {
-                    Success ->
+                    is Success ->
                         routingContext
                             .response()
                             .sendJson(json { obj("result" to result.toString()) })

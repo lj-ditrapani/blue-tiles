@@ -1,13 +1,11 @@
 package info.ditrapani
 
-sealed class Result {
-    abstract fun flatMap(block: () -> Result): Result
+sealed class Result<out A> {
+    abstract fun <B> flatMap(block: (A) -> Result<B>): Result<B>
 }
-object Success : Result() {
-    override fun toString(): String = "Success"
-    override fun flatMap(block: () -> Result): Result = block()
+data class Success<A>(val value: A) : Result<A>() {
+    override fun <B> flatMap(block: (A) -> Result<B>): Result<B> = block(value)
 }
-object Failure : Result() {
-    override fun toString(): String = "Failure"
-    override fun flatMap(block: () -> Result): Result = Failure
+object Failure : Result<Nothing>() {
+    override fun <B> flatMap(block: (Nothing) -> Result<B>): Result<B> = Failure
 }

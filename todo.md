@@ -1,3 +1,5 @@
+- Make Result Success<T> generic OR
+- Add isValid method to do validity check of move first?
 - implement server-side play
 - make game anti-cheat
     - update(play) function should return success/error
