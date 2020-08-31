@@ -33,7 +33,7 @@ export type Game = {
   board1: Board
   board2: Board
   board3: Board
-  lastPlay: PlayRecord
+  lastPlay: PlayRecord | null
   winner: Player | null
 }
 

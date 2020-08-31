@@ -2,6 +2,7 @@ import React from 'react'
 import { Game } from './models'
 import { FactoryComp } from './FactoryComp'
 import { BoardComp } from './BoardComp'
+import { PlayRecordComp } from './PlayRecordComp'
 import Grid from '@material-ui/core/Grid'
 
 type GameProps = {
@@ -33,6 +34,7 @@ export function GameComp(props: GameProps) {
             <BoardComp board={game.board3} player="P3" />
           </Grid>
         </Grid>
+        <PlayRecordComp play={game.lastPlay} />
       </div>
     )
   }
