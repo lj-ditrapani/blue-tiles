@@ -44,12 +44,18 @@ data class Board(
         return Success(Unit)
     }
 
-    private fun updateLine(row: PatternLine?, color: Color, tileCount: Int, max: Int) {
-        val floorTileCount = row.add(color, tileCount, max)
-        0.until(floorTileCount).forEach {
-            floor.add(color)
+    private fun updateLine(
+        line: PatternLine?,
+        color: Color,
+        tileCount: Int,
+        max: Int
+    ): Result<Unit> =
+        line.add(color, tileCount, max).map { floorTileCount ->
+            0.until(floorTileCount).forEach {
+                floor.add(color)
+            }
+            Unit
         }
-    }
 
     private fun updateFloor(color: Color, tileCount: Int) {
         0.until(tileCount).forEach {
