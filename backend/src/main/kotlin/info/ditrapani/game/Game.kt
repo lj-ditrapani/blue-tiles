@@ -70,7 +70,7 @@ data class Game(
                     .map { playRecord }
             }.flatMap { playRecord ->
                 lastPlay = playRecord
-                // set new currentPlayer
+                currentPlayer = currentPlayer.next()
 
                 if (factory.isEmpty()) {
                     // do wall tilling and scoring
@@ -90,7 +90,7 @@ data class Game(
         json {
             obj(
                 "requestingPerson" to requestingPerson(player),
-                "currentFirstPlayer" to currentPlayer.toString(),
+                "currentFirstPlayer" to currentFirstPlayer.toString(),
                 "currentPlayer" to currentPlayer.toString(),
                 "supplyCount" to supply.size,
                 "trashCount" to trash.size(),

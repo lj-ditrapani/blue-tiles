@@ -23,7 +23,15 @@ enum class Maybe {
 }
 
 enum class Player {
-    P1,
-    P2,
-    P3
+    P1 {
+        override fun next(): Player = Player.P2
+    },
+    P2 {
+        override fun next(): Player = Player.P3
+    },
+    P3 {
+        override fun next(): Player = Player.P1
+    };
+
+    abstract fun next(): Player
 }

@@ -1,3 +1,10 @@
+- separate idea of valid check & update
+- Create isPlayValid for factory and board
+- delete Result type
+- check factory.isPlayValid(play), board.isPlayValid(play)
+    - then do factory.update & board.update if both valid
+- check if board.isValid properly checks for wrong color on existing colored PatternLine
+- board.nextFirstPlayer disapeared after being properly assigned...
 - implement server-side play
 - make game anti-cheat
     - update(play) function should return success/error

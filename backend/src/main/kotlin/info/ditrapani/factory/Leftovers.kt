@@ -51,6 +51,28 @@ data class Leftovers(
             }
         }
 
+    fun cleanup(display: Display) {
+        addColor(display.slot1)
+        display.slot1 = null
+        addColor(display.slot2)
+        display.slot2 = null
+        addColor(display.slot3)
+        display.slot3 = null
+        addColor(display.slot4)
+        display.slot4 = null
+    }
+
+    fun addColor(color: Color?) {
+        when (color) {
+            null -> Unit
+            Color.WHITE -> whites += 1
+            Color.RED -> reds += 1
+            Color.BLUE -> blues += 1
+            Color.GREEN -> greens += 1
+            Color.BLACK -> blacks += 1
+        }
+    }
+
     fun toJson(): JsonObject =
         json {
             obj(

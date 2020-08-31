@@ -40,7 +40,9 @@ data class Board(
             MoveToFloor ->
                 updateFloor(color, tileCount)
         }
-        nextFirstPlayer = playRecord.firstPlayer
+        if (nextFirstPlayer == Maybe.MISSING) {
+            nextFirstPlayer = playRecord.firstPlayer
+        }
         return Success(Unit)
     }
 

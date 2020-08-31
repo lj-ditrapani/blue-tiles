@@ -26,8 +26,10 @@ data class Factory(val displays: List<Display>, val leftovers: Leftovers) {
         val location = play.location
         return when (location) {
             is DisplayLocation -> {
-                val count = displays[location.number - 1].take(play.color)
+                val display = displays[location.number - 1]
+                val count = display.take(play.color)
                 if (count > 0) {
+                    leftovers.cleanup(display)
                     Success(FactoryUpdate(count, Maybe.MISSING))
                 } else {
                     Failure
