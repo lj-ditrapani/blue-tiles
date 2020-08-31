@@ -14,7 +14,7 @@ export function GameComp(props: GameProps) {
     return (
       <div>
         <p>
-          requestingPerson: {game.requestingPerson} | currentFirstPlayer:{' '}
+          You are player {game.requestingPerson} | currentFirstPlayer:{' '}
           {game.currentFirstPlayer} | currentPlayer: {game.currentPlayer} | supplyCount:{' '}
           {game.supplyCount} | trashCount: {game.trashCount} | winner:{' '}
           {String(game.winner)}

@@ -10,38 +10,51 @@ type FactoryProps = {
 export function FactoryComp(props: FactoryProps) {
   const factory: Factory = props.factory
   return (
-    <div>
+    <div
+      style={{
+        border: '3px solid black',
+        backgroundColor: '#bbeeff',
+        padding: '2px',
+        margin: '2px',
+      }}
+    >
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          Factory
+        </Grid>
         <Grid item xs={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              Display 1: <DisplayComp display={factory.displays[0]} />
+              Display 1 <DisplayComp display={factory.displays[0]} />
             </Grid>
             <Grid item xs={3}>
-              Display 2: <DisplayComp display={factory.displays[1]} />
+              Display 2 <DisplayComp display={factory.displays[1]} />
             </Grid>
             <Grid item xs={3}>
-              Display 3: <DisplayComp display={factory.displays[2]} />
+              Display 3 <DisplayComp display={factory.displays[2]} />
             </Grid>
             <Grid item xs={3}>
-              Display 4: <DisplayComp display={factory.displays[3]} />
+              Display 4 <DisplayComp display={factory.displays[3]} />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              Display 5: <DisplayComp display={factory.displays[4]} />
+              Display 5 <DisplayComp display={factory.displays[4]} />
             </Grid>
             <Grid item xs={3}>
-              Display 6: <DisplayComp display={factory.displays[5]} />
+              Display 6 <DisplayComp display={factory.displays[5]} />
             </Grid>
             <Grid item xs={3}>
-              Display 7: <DisplayComp display={factory.displays[6]} />
+              Display 7 <DisplayComp display={factory.displays[6]} />
             </Grid>
             <Grid item xs={3}></Grid>
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        Leftovers:
       </Grid>
       <LeftoversComp leftovers={factory.leftovers} />
     </div>
