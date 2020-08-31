@@ -122,7 +122,7 @@ function TileComp(props: TileProps) {
 function colorToBgHex(color: Color | null): string {
   switch (color) {
     case null:
-      return '#404040'
+      return '#a5a5a5'
     case 'WHITE':
       return '#ffffff'
     case 'RED':
@@ -148,11 +148,24 @@ function TileSetComp(props: TileSetProps) {
   const color = props.color
   const count = props.count
   return (
-    <Button variant="contained" disabled={count === 0}>
+    <Button
+      style={{
+        backgroundColor: colorCountToBgHex(color, count),
+        color: colorCountToFgHex(color, count),
+      }}
+      variant="contained"
+      disabled={count === 0}
+    >
       {count} {color.toLowerCase() + 's'}
     </Button>
   )
 }
+
+const colorCountToBgHex = (color: Color, count: number): string =>
+  count === 0 ? '#a5a5a5' : colorToBgHex(color)
+
+const colorCountToFgHex = (color: Color, count: number): string =>
+  count === 0 ? '#000000' : colorToFgHex(color)
 
 function tileToLetter(color: Color | null): string {
   switch (color) {
