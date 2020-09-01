@@ -91,11 +91,9 @@ data class Game(
                 board1.tileWall(trash)
                 board2.tileWall(trash)
                 board3.tileWall(trash)
-                /*
-                - do wall tilling and scoring
-                    - score (then put extra tiles in trash)
-                    - deal penalties (then put floor tiles in trash)
-                */
+                board1.cleanFloor(trash)
+                board2.cleanFloor(trash)
+                board3.cleanFloor(trash)
                 if (listOf(board1, board2, board3).any { it.isGameOver() }) {
                     // add bonus score and mark complete
                     val pair = listOf(

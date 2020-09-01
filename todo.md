@@ -1,9 +1,4 @@
-- implement server-side play
-    - Once factory is empty
-        - score
-        - deal penalties (then put floor tiles in trash)
-        - on game end
-            - compute bonus points
+- on game end: compute bonus points
 Anti-cheat/correctness:
 - You can chose to moveTo a patternLine with a color that has already been scored/tiled in the corresponding line of the wall.
 - bug: if your floor is full BEFORE taking from center factory leftovers

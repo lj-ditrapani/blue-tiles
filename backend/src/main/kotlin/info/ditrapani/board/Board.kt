@@ -77,6 +77,35 @@ data class Board(
         tileLine(line5, wall.line5, 5, trash) { line5 = null }
     }
 
+    fun cleanFloor(trash: Trash) {
+        score -= getPenalty(floor, nextFirstPlayer)
+        if (score < 0) {
+            score = 0
+        }
+        floor.forEach { color ->
+            trash.add(color, 1)
+        }
+        floor.clear()
+    }
+
+    private fun getPenalty(floor: MutableList<Color>, nextFirstPlayer: Maybe): Int {
+        val extra = if (nextFirstPlayer == Maybe.PRESENT) {
+            1
+        } else {
+            0
+        }
+        return when (floor.size + extra) {
+            0 -> 0
+            1 -> 1
+            2 -> 2
+            3 -> 4
+            4 -> 6
+            5 -> 8
+            6 -> 11
+            else -> 14
+        }
+    }
+
     private fun tileLine(
         patternLine: PatternLine?,
         wallLine: WallLine,
