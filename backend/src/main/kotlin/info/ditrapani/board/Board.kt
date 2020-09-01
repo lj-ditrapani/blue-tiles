@@ -89,24 +89,26 @@ data class Board(
         }
     }
 
-    fun tileWall() {
-        tileLine(line1, wall.line1, 1) { line1 = null }
-        tileLine(line2, wall.line2, 2) { line2 = null }
-        tileLine(line3, wall.line3, 3) { line3 = null }
-        tileLine(line4, wall.line4, 4) { line4 = null }
-        tileLine(line5, wall.line5, 5) { line5 = null }
+    fun tileWall(trash: Trash) {
+        tileLine(line1, wall.line1, 1, trash) { line1 = null }
+        tileLine(line2, wall.line2, 2, trash) { line2 = null }
+        tileLine(line3, wall.line3, 3, trash) { line3 = null }
+        tileLine(line4, wall.line4, 4, trash) { line4 = null }
+        tileLine(line5, wall.line5, 5, trash) { line5 = null }
     }
 
     private fun tileLine(
         patternLine: PatternLine?,
         wallLine: WallLine,
         max: Int,
+        trash: Trash,
         clearPatternLine: () -> Unit
     ) {
         if (patternLine != null && patternLine.count == max) {
             clearPatternLine()
             val index = (patternLine.color.index + (max - 1)) % 5
             wallLine.setColumn(index)
+            trash.add(patternLine.color, max - 1)
         }
     }
 

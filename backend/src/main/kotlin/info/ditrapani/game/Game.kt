@@ -88,9 +88,9 @@ data class Game(
             currentPlayer = currentPlayer.next()
 
             if (factory.isEmpty()) {
-                board1.tileWall()
-                board2.tileWall()
-                board3.tileWall()
+                board1.tileWall(trash)
+                board2.tileWall(trash)
+                board3.tileWall(trash)
                 /*
                 - do wall tilling and scoring
                     - score (then put extra tiles in trash)
