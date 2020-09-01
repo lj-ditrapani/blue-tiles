@@ -6,6 +6,7 @@ import info.ditrapani.board.newBoard
 import info.ditrapani.factory.Factory
 import info.ditrapani.factory.newFactoryFromSupply
 import info.ditrapani.model.Color
+import info.ditrapani.model.Maybe
 import info.ditrapani.model.Play
 import info.ditrapani.model.PlayRecord
 import info.ditrapani.model.Player
@@ -102,12 +103,19 @@ data class Game(
                         .maxBy { it.second }
                     winner = pair!!.first
                 } else {
-                    /*
-                    Prepare the next round
-                    - reload displays
-                    - set currentFirstPlayer & currentPlayer to nextFirstPlayer
-                    - reset nextFirstPlayer
-                    */
+                    factory.reset(supply, trash)
+                    var nextFirstPlayer = Player.P1
+                    if (board2.nextFirstPlayer == Maybe.PRESENT) {
+                        nextFirstPlayer = Player.P2
+                    }
+                    if (board3.nextFirstPlayer == Maybe.PRESENT) {
+                        nextFirstPlayer = Player.P3
+                    }
+                    board1.nextFirstPlayer = Maybe.MISSING
+                    board2.nextFirstPlayer = Maybe.MISSING
+                    board3.nextFirstPlayer = Maybe.MISSING
+                    currentFirstPlayer = nextFirstPlayer
+                    currentPlayer = nextFirstPlayer
                 }
             }
             Outcome.SUCCESS
