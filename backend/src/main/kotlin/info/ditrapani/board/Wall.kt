@@ -12,6 +12,9 @@ data class WallLine(
     var c4: Maybe,
     var c5: Maybe
 ) {
+    fun isComplete(): Boolean =
+        listOf(c1, c2, c3, c4, c5).all { it == Maybe.PRESENT }
+
     fun toJson(): JsonObject =
         json {
             obj(
@@ -39,7 +42,8 @@ data class Wall(
     val line4: WallLine,
     val line5: WallLine
 ) {
-    fun isGameOver(): Boolean = true
+    fun isGameOver(): Boolean =
+        listOf(line1, line2, line3, line4, line5).any { it.isComplete() }
 
     fun toJson(): JsonObject =
         json {

@@ -87,14 +87,28 @@ data class Game(
             currentPlayer = currentPlayer.next()
 
             if (factory.isEmpty()) {
-                // do wall tilling and scoring
-                // needs to be implemented
-
-                // check if end of game
-                // if not end of game
-                // Prepare the next round
-                // if end of game
-                // add bonus score and mark complete
+                /*
+                - do wall tilling and scoring
+                    - score (then put extra tiles in trash)
+                    - deal penalties (then put floor tiles in trash)
+                */
+                if (listOf(board1, board2, board3).any { it.isGameOver() }) {
+                    // add bonus score and mark complete
+                    val pair = listOf(
+                        Player.P1 to board1.score,
+                        Player.P2 to board2.score,
+                        Player.P3 to board3.score
+                    )
+                        .maxBy { it.second }
+                    winner = pair!!.first
+                } else {
+                    /*
+                    Prepare the next round
+                    - reload displays
+                    - set currentFirstPlayer & currentPlayer to nextFirstPlayer
+                    - reset nextFirstPlayer
+                    */
+                }
             }
             Outcome.SUCCESS
         }
