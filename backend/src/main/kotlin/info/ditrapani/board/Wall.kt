@@ -35,6 +35,15 @@ data class WallLine(
             else -> c5 = Maybe.PRESENT
         }
     }
+
+    fun isColumnSet(index: Int): Boolean =
+        when (index) {
+            0 -> c1 == Maybe.PRESENT
+            1 -> c2 == Maybe.PRESENT
+            2 -> c3 == Maybe.PRESENT
+            3 -> c4 == Maybe.PRESENT
+            else -> c5 == Maybe.PRESENT
+        }
 }
 
 fun newGridRow(): WallLine = WallLine(
@@ -54,6 +63,15 @@ data class Wall(
 ) {
     fun isGameOver(): Boolean =
         listOf(line1, line2, line3, line4, line5).any { it.isComplete() }
+
+    fun getLine(index: Int): WallLine =
+        when (index) {
+            0 -> line1
+            1 -> line2
+            2 -> line3
+            3 -> line4
+            else -> line5
+        }
 
     fun toJson(): JsonObject =
         json {

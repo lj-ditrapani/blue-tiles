@@ -109,7 +109,66 @@ data class Board(
             val index = (patternLine.color.index + (max - 1)) % 5
             wallLine.setColumn(index)
             trash.add(patternLine.color, max - 1)
+            val lineScore = scoreLine(wallLine, index)
+            val columnScore = scoreColumn(index, max - 1)
+            score += if (lineScore == 0 && columnScore == 0) {
+                1
+            } else {
+                lineScore + columnScore
+            }
         }
+    }
+
+    private fun scoreLine(wallLine: WallLine, column: Int): Int {
+        var sum = 0
+        var index = column
+        while (index != 0) {
+            index -= 1
+            if (wallLine.isColumnSet(index)) {
+                sum += 1
+            } else {
+                index = 0
+            }
+        }
+        index = column
+        while (index != 4) {
+            index += 1
+            if (wallLine.isColumnSet(index)) {
+                sum += 1
+            } else {
+                index = 4
+            }
+        }
+        if (sum > 0) {
+            sum += 1
+        }
+        return sum
+    }
+
+    private fun scoreColumn(column: Int, row: Int): Int {
+        var sum = 0
+        var index = row
+        while (index != 0) {
+            index -= 1
+            if (wall.getLine(index).isColumnSet(column)) {
+                sum += 1
+            } else {
+                index = 0
+            }
+        }
+        index = row
+        while (index != 4) {
+            index += 1
+            if (wall.getLine(index).isColumnSet(column)) {
+                sum += 1
+            } else {
+                index = 4
+            }
+        }
+        if (sum > 0) {
+            sum += 1
+        }
+        return sum
     }
 
     private fun updateLine(
