@@ -105,7 +105,7 @@ data class Board(
     ) {
         if (patternLine != null && patternLine.count == max) {
             clearPatternLine()
-            val index = patternLine.color.index + (max - 1) % 5
+            val index = (patternLine.color.index + (max - 1)) % 5
             wallLine.setColumn(index)
         }
     }
