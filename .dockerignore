@@ -1,0 +1,11 @@
+.git
+*Dockerfile*
+*/node_modules
+*/dist
+*/build
+*/gradle
+README.md
+*/README.md
+build.sh
+docker-run.sh
+todo.md

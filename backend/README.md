@@ -24,6 +24,10 @@ Dev build
 
     ./gradlew build
 
+Assemble
+
+    ./gradlew assembleDist
+
 Run installed
 
     ./gradlew installDist
