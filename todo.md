@@ -1,12 +1,11 @@
 - implement server-side play
     - Once factory is empty
-        - score
-        - deal penalties
+        - score (then put extra tiles in trash)
+        - deal penalties (then put floor tiles in trash)
         - check for end of game & terminate if so
         - else:
         - reload displays
         - set currentFirstPlayer & currentPlayer to nextFirstPlayer
         - reset nextFirstPlayer
-- Adding tiles to Board floor:
-    - if more than floor slots, put remainder in trash
 - dockerize
+- detect end-game state and set winner

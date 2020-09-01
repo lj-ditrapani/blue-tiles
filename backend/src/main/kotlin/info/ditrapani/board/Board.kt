@@ -1,5 +1,6 @@
 package info.ditrapani.board
 
+import info.ditrapani.game.Trash
 import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
 import info.ditrapani.model.MoveToFloor
@@ -36,7 +37,10 @@ data class Board(
                 true
         }
 
-    fun update(playRecord: PlayRecord) {
+    fun update(playRecord: PlayRecord, trash: Trash) {
+        if (playRecord.firstPlayer == Maybe.PRESENT) {
+            nextFirstPlayer = Maybe.PRESENT
+        }
         val tileCount = playRecord.tileCount
         val play = playRecord.play
         val color = play.color
@@ -44,17 +48,44 @@ data class Board(
         when (moveTo) {
             is MoveToRow ->
                 when (moveTo.row) {
-                    1 -> updateLine(line1, color, tileCount, 1, { line -> line1 = line })
-                    2 -> updateLine(line2, color, tileCount, 2, { line -> line2 = line })
-                    3 -> updateLine(line3, color, tileCount, 3, { line -> line3 = line })
-                    4 -> updateLine(line4, color, tileCount, 4, { line -> line4 = line })
-                    5 -> updateLine(line5, color, tileCount, 5, { line -> line5 = line })
+                    1 ->
+                        updateLine(
+                            line1, color, tileCount, 1, trash
+                        ) {
+                            line ->
+                            line1 = line
+                        }
+                    2 ->
+                        updateLine(
+                            line2, color, tileCount, 2, trash
+                        ) {
+                            line ->
+                            line2 = line
+                        }
+                    3 ->
+                        updateLine(
+                            line3, color, tileCount, 3, trash
+                        ) {
+                            line ->
+                            line3 = line
+                        }
+                    4 ->
+                        updateLine(
+                            line4, color, tileCount, 4, trash
+                        ) {
+                            line ->
+                            line4 = line
+                        }
+                    5 ->
+                        updateLine(
+                            line5, color, tileCount, 5, trash
+                        ) {
+                            line ->
+                            line5 = line
+                        }
                 }
             MoveToFloor ->
-                updateFloor(color, tileCount)
-        }
-        if (nextFirstPlayer == Maybe.MISSING) {
-            nextFirstPlayer = playRecord.firstPlayer
+                updateFloor(color, tileCount, trash)
         }
     }
 
@@ -63,18 +94,25 @@ data class Board(
         color: Color,
         tileCount: Int,
         max: Int,
+        trash: Trash,
         saveLine: (PatternLine) -> Unit
     ) {
         val floorTileCount = line.add(color, tileCount, max, saveLine)
-        0.until(floorTileCount).forEach {
-            floor.add(color)
-        }
+        updateFloor(color, floorTileCount, trash)
     }
 
-    private fun updateFloor(color: Color, tileCount: Int) {
-        0.until(tileCount).forEach {
+    private fun updateFloor(color: Color, tileCount: Int, trash: Trash) {
+        val used = floor.size + if (nextFirstPlayer == Maybe.PRESENT) { 1 } else { 0 }
+        val remain = 7 - used
+        val (toFloor, toTrash) = if (tileCount > remain) {
+            remain to (tileCount - remain)
+        } else {
+            (tileCount) to 0
+        }
+        0.until(toFloor).forEach {
             floor.add(color)
         }
+        trash.add(color, toTrash)
     }
 
     fun isGameOver(): Boolean = wall.isGameOver()

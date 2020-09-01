@@ -41,6 +41,16 @@ data class Trash(
         }
 
     fun isEmpty(): Boolean = toSupply().size == 0
+
+    fun add(color: Color, count: Int) {
+        when (color) {
+            Color.WHITE -> whites += count
+            Color.RED -> reds += count
+            Color.BLUE -> blues += count
+            Color.GREEN -> greens += count
+            Color.BLACK -> blacks += count
+        }
+    }
 }
 
 data class Game(
@@ -69,9 +79,9 @@ data class Game(
             val playRecord = PlayRecord(count, firstPlayer, play)
             val player = play.player
             when (player) {
-                Player.P1 -> board1.update(playRecord)
-                Player.P2 -> board2.update(playRecord)
-                Player.P3 -> board3.update(playRecord)
+                Player.P1 -> board1.update(playRecord, trash)
+                Player.P2 -> board2.update(playRecord, trash)
+                Player.P3 -> board3.update(playRecord, trash)
             }
             lastPlay = playRecord
             currentPlayer = currentPlayer.next()
