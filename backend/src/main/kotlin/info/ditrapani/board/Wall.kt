@@ -1,5 +1,6 @@
 package info.ditrapani.board
 
+import info.ditrapani.model.Color
 import info.ditrapani.model.Maybe
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.json.json
@@ -73,6 +74,12 @@ data class Wall(
             else -> line5
         }
 
+    fun isOccupied(row: Int, color: Color): Boolean {
+        val line = listOf(line1, line2, line3, line4, line5)[row - 1]
+        val columnIndex = getColumnFromColorRow(color, row)
+        return line.isColumnSet(columnIndex)
+    }
+
     fun toJson(): JsonObject =
         json {
             obj(
@@ -93,3 +100,6 @@ fun newWall(): Wall =
         newGridRow(),
         newGridRow()
     )
+
+fun getColumnFromColorRow(color: Color, row: Int): Int =
+    (color.index + (row - 1)) % 5

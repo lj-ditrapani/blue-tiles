@@ -25,14 +25,19 @@ data class Board(
 ) {
     fun isPlayValid(play: Play): Boolean =
         when (play.moveTo) {
-            is MoveToRow ->
-                when (play.moveTo.row) {
-                    1 -> line1.isValidColor(play.color, 1)
-                    2 -> line2.isValidColor(play.color, 2)
-                    3 -> line3.isValidColor(play.color, 3)
-                    4 -> line4.isValidColor(play.color, 4)
-                    else -> line5.isValidColor(play.color, 5)
+            is MoveToRow -> {
+                if (wall.isOccupied(play.moveTo.row, play.color)) {
+                    false
+                } else {
+                    when (play.moveTo.row) {
+                        1 -> line1.isValidColor(play.color, 1)
+                        2 -> line2.isValidColor(play.color, 2)
+                        3 -> line3.isValidColor(play.color, 3)
+                        4 -> line4.isValidColor(play.color, 4)
+                        else -> line5.isValidColor(play.color, 5)
+                    }
                 }
+            }
             MoveToFloor ->
                 true
         }
@@ -115,7 +120,7 @@ data class Board(
     ) {
         if (patternLine != null && patternLine.count == max) {
             clearPatternLine()
-            val index = (patternLine.color.index + (max - 1)) % 5
+            val index = getColumnFromColorRow(patternLine.color, max)
             wallLine.setColumn(index)
             trash.add(patternLine.color, max - 1)
             val lineScore = scoreLine(wallLine, index)
