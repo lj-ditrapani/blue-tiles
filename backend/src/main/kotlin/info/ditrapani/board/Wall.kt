@@ -90,6 +90,31 @@ data class Wall(
                 "line5" to line5.toJson()
             )
         }
+
+    fun computeRowBonus(): Int {
+        return 2 * listOf(line1, line2, line3, line4, line5).count { it.isComplete() }
+    }
+
+    fun computeColumnBonus(): Int {
+        return 7 * 0.until(5).count { isRowComplete(it) }
+    }
+
+    fun computeColorBonus(): Int {
+        return 10 * Color.values().count { color ->
+            listOf(
+                1 to line1,
+                2 to line2,
+                3 to line3,
+                4 to line4,
+                5 to line5
+            ).all { (row, line) ->
+                line.isColumnSet(getColumnFromColorRow(color, row))
+            }
+        }
+    }
+
+    private fun isRowComplete(index: Int): Boolean =
+        listOf(line1, line2, line3, line4, line5).all { it.isColumnSet(index) }
 }
 
 fun newWall(): Wall =

@@ -93,6 +93,12 @@ data class Board(
         floor.clear()
     }
 
+    fun addBonusScore() {
+        score += wall.computeRowBonus()
+        score += wall.computeColumnBonus()
+        score += wall.computeColorBonus()
+    }
+
     private fun getPenalty(floor: MutableList<Color>, nextFirstPlayer: Maybe): Int {
         val extra = if (nextFirstPlayer == Maybe.PRESENT) {
             1

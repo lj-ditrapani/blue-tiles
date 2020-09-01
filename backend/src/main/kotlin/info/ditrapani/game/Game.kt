@@ -95,7 +95,9 @@ data class Game(
                 board2.cleanFloor(trash)
                 board3.cleanFloor(trash)
                 if (listOf(board1, board2, board3).any { it.isGameOver() }) {
-                    // add bonus score and mark complete
+                    board1.addBonusScore()
+                    board2.addBonusScore()
+                    board3.addBonusScore()
                     val pair = listOf(
                         Player.P1 to board1.score,
                         Player.P2 to board2.score,
