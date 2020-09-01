@@ -1,11 +1,11 @@
 package info.ditrapani.model
 
-enum class Color {
-    WHITE,
-    RED,
-    BLUE,
-    GREEN,
-    BLACK
+enum class Color(val index: Int) {
+    WHITE(0),
+    RED(1),
+    BLUE(2),
+    GREEN(3),
+    BLACK(4)
 }
 
 fun parseColor(str: String?): Color? =

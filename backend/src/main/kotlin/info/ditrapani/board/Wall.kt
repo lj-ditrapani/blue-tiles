@@ -25,6 +25,16 @@ data class WallLine(
                 "c5" to c5.toString()
             )
         }
+
+    fun setColumn(index: Int) {
+        when (index) {
+            0 -> c1 = Maybe.PRESENT
+            1 -> c2 = Maybe.PRESENT
+            2 -> c3 = Maybe.PRESENT
+            3 -> c4 = Maybe.PRESENT
+            else -> c5 = Maybe.PRESENT
+        }
+    }
 }
 
 fun newGridRow(): WallLine = WallLine(

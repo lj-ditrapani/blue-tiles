@@ -89,6 +89,27 @@ data class Board(
         }
     }
 
+    fun tileWall() {
+        tileLine(line1, wall.line1, 1) { line1 = null }
+        tileLine(line2, wall.line2, 2) { line2 = null }
+        tileLine(line3, wall.line3, 3) { line3 = null }
+        tileLine(line4, wall.line4, 4) { line4 = null }
+        tileLine(line5, wall.line5, 5) { line5 = null }
+    }
+
+    private fun tileLine(
+        patternLine: PatternLine?,
+        wallLine: WallLine,
+        max: Int,
+        clearPatternLine: () -> Unit
+    ) {
+        if (patternLine != null && patternLine.count == max) {
+            clearPatternLine()
+            val index = patternLine.color.index + (max - 1) % 5
+            wallLine.setColumn(index)
+        }
+    }
+
     private fun updateLine(
         line: PatternLine?,
         color: Color,

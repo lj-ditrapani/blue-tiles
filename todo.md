@@ -1,3 +1,5 @@
+Anti-cheat/correctness:
+- You can chose to moveTo a patternLine with a color that has already been scored/tiled in the corresponding line of the wall.
 - implement server-side play
     - Once factory is empty
         - score (then put extra tiles in trash)
